@@ -1,0 +1,6 @@
+Properties/
+obj/
+bin/
+*.csproj
+*.config
+*.gitignore

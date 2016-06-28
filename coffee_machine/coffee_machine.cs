@@ -94,8 +94,10 @@ namespace coffee_machine
 
         public void washMachine()
         {
-            if (m_maxVolume >= WATER_FOR_WASHING)
+            if (m_currentVolume >= WATER_FOR_WASHING)
                 m_currentVolume -= WATER_FOR_WASHING;
+            else 
+                m_currentVolume = 0;
         }
 
         public bool canMake()

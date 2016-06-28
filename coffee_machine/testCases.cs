@@ -17,8 +17,14 @@ namespace coffee_machine
             _runner.addTest("test_coffee_constructor_wrong_waste_space", constructorWrongWasteSpace);
             _runner.addTest("test_load_water", loadWater);
             _runner.addTest("test_load_beans", loadBeans);
-            _runner.addTest("test_waste_portions", wastePortionsSmallCan);
-
+            _runner.addTest("test_waste_one_portion", wastePortionsSmallCan);
+            _runner.addTest("test_waste_multiple_portions", wastePortionsMultipleCoffees);
+            _runner.addTest("test_wash_enough_water", washEnoughWater);
+            _runner.addTest("test_wash_not_enough_water", washNotEnoughWater);
+            _runner.addTest("test_can_make_coffee", makeWhenLoadedAndNoWaste);
+            _runner.addTest("test_cannot_make_without_beans", cannotMakeCoffeeWithoutBeans);
+            _runner.addTest("test_cannot_make_without_water", cannot_make_without_water);
+            _runner.addTest("test_correct_resource_use", correctResourceUse);
         }
 
         private static void coffeeConstructor()
@@ -126,6 +132,121 @@ namespace coffee_machine
             m.cleanWaste();
             Debug.Assert(m.getFreeWastePortions() == 1);
             Debug.Assert(!res);
+        }
+
+        private static void wastePortionsMultipleCoffees()
+        {
+            CoffeeMachine m = new CoffeeMachine(1000, 2000, 10 );
+            m.loadBeans();
+            m.loadWater();
+            Debug.Assert(m.getFreeWastePortions() == 10);
+
+            bool res = true;
+            for (int i = 0; i < 3; i++)
+                res &= m.makeCoffee(CoffeeMachine.Recipe.Espresso, CoffeeMachine.Strength.Light);
+
+            Debug.Assert(res);
+            Debug.Assert(m.getFreeWastePortions() == 7);
+        }
+
+        private static void washEnoughWater()
+        {
+            CoffeeMachine m = new CoffeeMachine(1000, 2000, 10 );
+            m.loadWater();
+            Debug.Assert(m.getWaterVolume() == 2000);
+            m.washMachine();
+            Debug.Assert(m.getWaterVolume() == (2000 - CoffeeMachine.WATER_FOR_WASHING));
+        }
+
+        private static void washNotEnoughWater()
+        {
+            CoffeeMachine m = new CoffeeMachine(1000, CoffeeMachine.WATER_FOR_WASHING / 2, 10 );
+            m.loadWater();
+            Debug.Assert(m.getWaterVolume() == CoffeeMachine.WATER_FOR_WASHING / 2);
+            m.washMachine();
+            Debug.Assert(m.getWaterVolume() == 0);
+        }
+
+        private static void makeWhenLoadedAndNoWaste()
+        {
+            CoffeeMachine m = new CoffeeMachine(1000, 2000, 10 );
+            m.loadBeans();
+            m.loadWater();
+
+            Debug.Assert(m.canMake());
+        }
+
+        private static void cannotMakeCoffeeWithoutBeans()
+        {
+            CoffeeMachine m = new CoffeeMachine(1000, 2000, 10 );
+            m.loadWater();
+            Debug.Assert(!m.canMake());
+            bool res = m.makeCoffee(CoffeeMachine.Recipe.Espresso, CoffeeMachine.Strength.Light);
+            Debug.Assert(!res);
+        }
+
+        private static void cannot_make_without_water()
+        {
+            CoffeeMachine m = new CoffeeMachine(1000, 2000, 10 );
+            m.loadBeans();
+            Debug.Assert(!m.canMake());
+            bool res = m.makeCoffee(CoffeeMachine.Recipe.Espresso, CoffeeMachine.Strength.Light);
+            Debug.Assert(!res);
+        }
+
+        private static void correctResourceUse()
+        {
+            CoffeeMachine m = new CoffeeMachine(1000, 2000, 10 );
+
+            bool res;
+
+            m.loadBeans();
+            m.loadWater();
+            res = m.makeCoffee(CoffeeMachine.Recipe.Espresso, CoffeeMachine.Strength.Light);
+            Debug.Assert(res);
+            Debug.Assert(m.getBeansWeight() == (1000 - CoffeeMachine.BEANS_FOR_LIGHT));
+            Debug.Assert(m.getWaterVolume() == (2000 - CoffeeMachine.WATER_FOR_ESPRESSO));
+            Debug.Assert(m.getFreeWastePortions() == 9);
+
+            m.loadBeans();
+            m.loadWater();
+            res = m.makeCoffee(CoffeeMachine.Recipe.Espresso, CoffeeMachine.Strength.Medium);
+            Debug.Assert(res);
+            Debug.Assert(m.getBeansWeight() == (1000 - CoffeeMachine.BEANS_FOR_MEDIUM));
+            Debug.Assert(m.getWaterVolume() == (2000 - CoffeeMachine.WATER_FOR_ESPRESSO));
+            Debug.Assert(m.getFreeWastePortions() == 8);
+
+            m.loadBeans();
+            m.loadWater();
+            res = m.makeCoffee(CoffeeMachine.Recipe.Espresso, CoffeeMachine.Strength.Strong);
+            Debug.Assert(res);
+            Debug.Assert(m.getBeansWeight() == (1000 - CoffeeMachine.BEANS_FOR_STRONG));
+            Debug.Assert(m.getWaterVolume() == (2000 - CoffeeMachine.WATER_FOR_ESPRESSO));
+            Debug.Assert(m.getFreeWastePortions() == 7);
+
+            m.loadBeans();
+            m.loadWater();
+            res = m.makeCoffee(CoffeeMachine.Recipe.Americano, CoffeeMachine.Strength.Light);
+            Debug.Assert(res);
+            Debug.Assert(m.getBeansWeight() == (1000 - CoffeeMachine.BEANS_FOR_LIGHT));
+            Debug.Assert(m.getWaterVolume() == (2000 - CoffeeMachine.WATER_FOR_AMERICANO));
+            Debug.Assert(m.getFreeWastePortions() == 6);
+
+            m.loadBeans();
+            m.loadWater();
+            res = m.makeCoffee(CoffeeMachine.Recipe.Americano, CoffeeMachine.Strength.Medium);
+            Debug.Assert(res);
+            Debug.Assert(m.getBeansWeight() == (1000 - CoffeeMachine.BEANS_FOR_MEDIUM));
+            Debug.Assert(m.getWaterVolume() == (2000 - CoffeeMachine.WATER_FOR_AMERICANO));
+            Debug.Assert(m.getFreeWastePortions() == 5);
+
+            m.loadBeans();
+            m.loadWater();
+            res = m.makeCoffee(CoffeeMachine.Recipe.Americano, CoffeeMachine.Strength.Strong);
+            Debug.Assert(res);
+            Debug.Assert(m.getBeansWeight() == (1000 - CoffeeMachine.BEANS_FOR_STRONG));
+            Debug.Assert(m.getWaterVolume() == (2000 - CoffeeMachine.WATER_FOR_AMERICANO));
+            Debug.Assert(m.getFreeWastePortions() == 4);
         }
 
     }

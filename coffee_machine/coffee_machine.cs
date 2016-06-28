@@ -15,20 +15,20 @@ namespace coffee_machine
 
         public enum Strength { Light, Medium, Strong };
 
-        private static int WATER_FOR_ESPRESSO = 120, WATER_FOR_AMERICANO = 200;
-        private static int WATER_FOR_WASHING = 500;
-        private static int BEANS_FOR_LIGHT = 4, BEANS_FOR_MEDIUM = 8, BEANS_FOR_STRONG = 12;
+        public static int WATER_FOR_ESPRESSO = 120, WATER_FOR_AMERICANO = 200;
+        public static int WATER_FOR_WASHING = 500;
+        public static int BEANS_FOR_LIGHT = 4, BEANS_FOR_MEDIUM = 8, BEANS_FOR_STRONG = 12;
 
  /***************************************************************************/
 
         public CoffeeMachine(int _maxBeans, int _maxWater, int _maxPortions)
         {
             if (_maxWater <= 0 || _maxPortions <= 0 || _maxBeans <= 0)
-                throw new Exception("Incorrect initial parameters");
+                throw new ArgumentException("Incorrect initial parameters");
 
             m_maxBeans = _maxBeans;
             m_maxVolume = _maxWater;
-            m_maxVolume = _maxPortions;
+            m_maxPortions = _maxPortions;
             m_currentVolume = 0;
             m_currentWaste = 0;
             m_currentBeans = 0;
@@ -52,9 +52,19 @@ namespace coffee_machine
             return loaded;
         }
 
-        public int getFreeWastePoritons()
+        public int getFreeWastePortions()
         {
             return m_maxPortions - m_currentWaste;
+        }
+
+        public int getBeansWeight()
+        {
+            return m_currentBeans;
+        }
+
+        public int getWaterVolume()
+        {
+            return m_currentVolume;
         }
 
         public void cleanWaste()

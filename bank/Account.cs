@@ -11,18 +11,13 @@ namespace bank
 
 /***************************************************************************/
 
-        protected Account( string _fullName, int _id, double _currentBalance )
+        public Account( string _fullName, int _id, double _currentBalance )
         {
             m_fullName = _fullName;
 
             m_id = _id;
 
             m_currentBalance = _currentBalance;
-        }
-
-        public virtual int countOverdraftLimit()
-        {
-            return 0;
         }
 
 /***************************************************************************/
@@ -34,6 +29,8 @@ namespace bank
         public double Balance { get { return m_currentBalance;  }
                                 set { m_currentBalance = value; }
         }
+
+        public virtual double OverdraftLimit { get { return 0.0;  } }
 
 /***************************************************************************/
 

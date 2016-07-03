@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Reflection.Emit;
 
-namespace bank
+namespace coffee_machine
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main( string[] args )
         {
+            TestRunner runner = new TestRunner();
+
+            TestCases.fillRunner(runner);
+
+            runner.run();
+
         }
     }
 }

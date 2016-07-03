@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace bank
 {
 
 /***************************************************************************/
 
-    class Bank
+    class Bank : IEnumerable
     {
         public Bank()
         {
@@ -22,14 +23,35 @@ namespace bank
 
 /***************************************************************************/
 
-        public int addAccount( Account _account )
+        private void addAccountInternal( Account _accout )
+        {
+            m_accounts.Add(_accout);
+
+            m_clients.Add(_accout.fullName);
+
+        }
+
+        public int addAccount( string _fullName, double _initialBalance )
         {
             int id = AccountsCount;
 
-            m_accounts.Add(_account);
+            Account account = new Account(_fullName, id, _initialBalance);
 
+            addAccountInternal(account);
+            
             return id;
 
+        }
+
+        public int addOverdraftAccount(string _fullName, double _initialBalance, double _overdraftLimit )
+        {
+            int id = AccountsCount;
+
+            Account account = new OverdraftAccount(_fullName, id, _initialBalance, _overdraftLimit );
+
+            addAccountInternal(account);
+
+            return id;
         }
 
         public string getAccountOwnerName( int _id )
@@ -52,24 +74,43 @@ namespace bank
             return m_accounts[_id].OverdraftLimit;
         }
 
-        void deposit( int _id, double _summ )
+        public void deposit( int _id, double _summ )
         {
             m_accounts[_id].Balance += _summ;
         }
 
-        void withdraw(int _id, double _summ)
+        public void withdraw(int _id, double _summ)
         {
             m_accounts[_id].Balance -= _summ;
         }
         
-        bool hasAccount( int _id )
+        public void transfer(int _sourceAccountId, int _targetAccountId, double _amount)
+        {
+            withdraw(_sourceAccountId, _amount);
+
+            deposit(_targetAccountId, _amount);
+        }
+
+        public bool hasAccount( int _id )
         {
             return _id < AccountsCount;
         }
 
+        public bool hasAccount( string _fullName )
+        {
+            return m_clients.Contains(_fullName);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return m_accounts.GetEnumerator();
+        }
+
 /***************************************************************************/
 
-        List< Account > m_accounts;
+       private List< Account > m_accounts;
+
+       private HashSet<string> m_clients;
 
 /***************************************************************************/
 

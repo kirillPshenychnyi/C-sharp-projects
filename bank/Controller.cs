@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace bank
+namespace Bank
 {
     class Controller
     {
@@ -124,7 +124,7 @@ namespace bank
         {
             double totalOverdrafts = 0.0;
 
-            foreach (Account accountIt in m_bank)
+            foreach ( Account accountIt in m_bank )
                 totalOverdrafts += accountIt.OverdraftLimit;
 
             return totalOverdrafts;
@@ -135,14 +135,14 @@ namespace bank
 
         private void checkArguments(string _fullName, double _initBalance)
         {
-            if (_initBalance < 0)
+            if ( _initBalance < 0 )
                 throw new ArgumentException(Messages.NegativeInitialBalance);
 
-            if (_fullName.Length == 0)
+            if ( _fullName.Length == 0 )
                 throw new ArgumentException(Messages.OwnerNameIsEmpty);
 
-            if (m_bank.hasAccount(_fullName))
-                throw new ArgumentException(Messages.OwnerNameNotUnique);
+            if ( m_bank.hasClient( _fullName ) )
+                throw new ArgumentException( Messages.OwnerNameNotUnique );
         }
 
         private void checkAccountExists(int _id)

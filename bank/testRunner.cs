@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace coffee_machine
+namespace Bank
 {
     class TestRunner
     {
         public TestRunner()
         {
-            m_testCases = new Dictionary <string, Action >();
+            m_testCases = new Dictionary < string, Action >();
         }
 
         public void addTest( string _name, Action _case)
@@ -28,14 +28,22 @@ namespace coffee_machine
 
             foreach( var test in m_testCases )
             {
-                System.Console.WriteLine("Test case {0}", test.Key);
+                System.Console.WriteLine( "Test case {0}", test.Key );
 
-                test.Value();
+                try
+                {
+                    test.Value();
+                }
+
+                catch ( Exception _ex)
+                {
+                    System.Console.WriteLine( _ex.Message );
+                }
+
             }
 
         }
-
-
+       
         private Dictionary< string, Action > m_testCases;
     }
 }

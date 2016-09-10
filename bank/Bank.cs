@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
-namespace bank
+namespace Bank
 {
 
 /***************************************************************************/
@@ -14,7 +14,9 @@ namespace bank
     {
         public Bank()
         {
-            m_accounts = new List<Account>();
+            m_accounts = new List < Account >();
+            m_clients = new HashSet< string >();
+
         }
 
 /***************************************************************************/
@@ -28,7 +30,6 @@ namespace bank
             m_accounts.Add(_accout);
 
             m_clients.Add(_accout.fullName);
-
         }
 
         public int addAccount( string _fullName, double _initialBalance )
@@ -40,7 +41,6 @@ namespace bank
             addAccountInternal(account);
             
             return id;
-
         }
 
         public int addOverdraftAccount(string _fullName, double _initialBalance, double _overdraftLimit )
@@ -93,12 +93,12 @@ namespace bank
 
         public bool hasAccount( int _id )
         {
-            return _id < AccountsCount;
+            return m_accounts.Count < _id;
         }
 
-        public bool hasAccount( string _fullName )
+        public bool hasClient( string _name )
         {
-            return m_clients.Contains(_fullName);
+            return m_clients.Contains( _name );
         }
 
         public IEnumerator GetEnumerator()
@@ -108,9 +108,9 @@ namespace bank
 
 /***************************************************************************/
 
-       private List< Account > m_accounts;
+       private List< Account> m_accounts;
 
-       private HashSet<string> m_clients;
+       private HashSet< string > m_clients;
 
 /***************************************************************************/
 

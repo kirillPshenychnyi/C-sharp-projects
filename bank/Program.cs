@@ -14,7 +14,7 @@ namespace Bank
         {
             TestRunner runner = new TestRunner();
 
-            TestCases.fillRunner(runner);
+            Test.TestCases.fillRunner(runner);
 
             runner.run();
 

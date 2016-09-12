@@ -69,7 +69,7 @@ namespace Bank
         {
             checkAccountExists(_id);
 
-            if (_amount < 0)
+            if (_amount <= 0)
                 throw new ArgumentException(Messages.NonPositiveDeposit);
 
             m_bank.deposit(_id, _amount);
@@ -80,18 +80,28 @@ namespace Bank
         {
             checkAccountExists(_id);
 
-            if (_amount < 0.0)
+            if (_amount <= 0.0)
                 throw new ArgumentException(Messages.NonPositiveWithdrawal);
 
-            m_bank.withdraw(_id, _amount );
+            double accountBalance = m_bank.getAccountBalance(_id);
 
+            if (accountBalance < _amount && m_bank.getOverdraftLimit(_id) + accountBalance < _amount)
+                throw new ArgumentException(Messages.WithdrawalLimitExceeded);
+
+            m_bank.withdraw(_id, _amount );
         }
 
         public void transfer( int _sourceAccountId, int _targetAccountId, double _amount )
         {
+            if (_amount <= 0.0)
+                throw new ArgumentException(Messages.NonPositiveTransfer);
+
             checkAccountExists(_sourceAccountId);
 
             checkAccountExists(_targetAccountId);
+
+            if (getAccountBalance(_sourceAccountId) + getOverdraftLimit(_sourceAccountId) < _amount)
+                throw new ArgumentException(Messages.WithdrawalLimitExceeded);
 
             m_bank.transfer(_sourceAccountId, _targetAccountId, _amount);
 
@@ -125,9 +135,10 @@ namespace Bank
             double totalOverdrafts = 0.0;
 
             foreach ( Account accountIt in m_bank )
-                totalOverdrafts += accountIt.OverdraftLimit;
+                if( accountIt.Balance < 0.0 && accountIt.OverdraftLimit > 0.0 )
+                    totalOverdrafts += accountIt.Balance;
 
-            return totalOverdrafts;
+            return -totalOverdrafts;
 
         }
 

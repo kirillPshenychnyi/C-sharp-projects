@@ -6,33 +6,40 @@ using System.Threading.Tasks;
 
 namespace CombinationalLogic
 {
+    /***************************************************************************/
+
     public class BinaryElement : Element
     {
-        public BinaryElement( OperationType _type, Element _sourceA, Element _sourceB ) :
+        /***************************************************************************/
+
+        public BinaryElement( OperationType.Enum _type, Element _sourceA, Element _sourceB ) :
             base( _type )
         {
-            m_operationCode = _type;
             m_sourceA = _sourceA;
             m_sourceB = _sourceB;
         }
 
+        /***************************************************************************/
+
         public override bool evaluate()
         {
-           switch(m_operationCode)
+           switch(elementKind)
             {
-                case OperationType.AND:
+                case OperationType.Enum.AND:
                     return m_sourceA.evaluate() && m_sourceB.evaluate();
                 
-                case OperationType.OR:
+                case OperationType.Enum.OR:
                     return m_sourceA.evaluate() || m_sourceB.evaluate();
 
-                case OperationType.XOR:
+                case OperationType.Enum.XOR:
                     return m_sourceA.evaluate() ^ m_sourceB.evaluate();
 
                 default:
                     return false;
             }
         }
+
+        /***************************************************************************/
 
         public Element this [int index]
         {
@@ -42,10 +49,13 @@ namespace CombinationalLogic
             }
         }
 
-        private readonly OperationType m_operationCode;
+        /***************************************************************************/
 
         private readonly Element m_sourceA;
 
         private readonly Element m_sourceB;
+
+        /***************************************************************************/
+
     }
 }

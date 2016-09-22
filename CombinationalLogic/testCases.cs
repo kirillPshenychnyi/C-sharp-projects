@@ -20,7 +20,7 @@ namespace CombinationalLogic
 
         /***************************************************************************/
 
-        private static unaryElementsTest()
+        private static void unaryElementsTest()
         {
 
         }

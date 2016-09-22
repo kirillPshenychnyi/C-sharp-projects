@@ -9,7 +9,7 @@ namespace CombinationalLogic
     public class InputPortElement : Element
     {
         public InputPortElement(InputPort _inputPort):
-            base(Element.OperationType.Buffer)
+            base(Element.OperationType.Enum.Buffer)
         {
             m_inputPort = _inputPort;
         }

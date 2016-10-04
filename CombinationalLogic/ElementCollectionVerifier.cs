@@ -22,7 +22,7 @@ namespace CombinationalLogic
 
         /***************************************************************************/
 
-        public ElementCollectionVerifier(ref Elements _elements, ref PortList _portList)
+        public ElementCollectionVerifier(Elements _elements,  PortList _portList)
         {
             m_elements = _elements;
             m_portList = _portList;
@@ -45,15 +45,28 @@ namespace CombinationalLogic
 
         /***************************************************************************/
 
-        public void validateElementsExistance(string _newElement, string _sourceElement)
+        public void validateElementExistance(string _newElement)
         {
-            validateName(_newElement);
+            checkPredicate(() => { return hasElement(_newElement); }, Messages.Exceptions.UnknownElement);
+        }
 
-            validateName(_sourceElement);
+        /***************************************************************************/
 
-            checkPredicate(() => { return !hasElement(_newElement); }, Messages.Exceptions.DuplicatedElementName);
+        public void validateElementUnique(string _element)
+        {
+            checkPredicate(() => { return !hasElement(_element); }, Messages.Exceptions.DuplicatedElementName);
+        }
 
-            checkPredicate(() => { return hasElement(_sourceElement); }, Messages.Exceptions.UnknownElement);
+        public void validatePortExistance(string _newElement)
+        {
+            checkPredicate(() => { return hasPort(_newElement); }, Messages.Exceptions.UnknownPort);
+        }
+
+        /***************************************************************************/
+
+        public void validatePortUnique(string _element)
+        {
+            checkPredicate(() => { return !hasPort(_element); }, Messages.Exceptions.DuplicatedPort);
         }
 
         /***************************************************************************/
@@ -64,6 +77,8 @@ namespace CombinationalLogic
         }
 
         /***************************************************************************/
+
+        
 
         public bool hasPort(string _portName)
         {

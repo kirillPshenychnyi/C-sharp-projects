@@ -16,7 +16,7 @@ namespace CombinationalLogic
 
         public override bool evaluate()
         {
-            return true;
+            return m_inputPort.Value;
         }
 
         InputPort m_inputPort;

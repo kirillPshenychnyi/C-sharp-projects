@@ -16,7 +16,8 @@ namespace CombinationalLogic
 
         public override bool Value
         {
-            get { return m_elementOpt == null ? m_elementOpt.evaluate() : false; }
+            get { return m_elementOpt == null ? false : m_elementOpt.evaluate(); }
+            set { }
         }
 
         Element m_elementOpt;

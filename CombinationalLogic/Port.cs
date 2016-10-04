@@ -24,6 +24,7 @@ namespace CombinationalLogic
         public abstract bool Value
         {
             get;
+            set;
         }
 
         private readonly string m_name;    

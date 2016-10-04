@@ -10,6 +10,11 @@ namespace CombinationalLogic
     {
         static void Main(string[] args)
         {
+            TestRunner runner = new TestRunner();
+
+            TestCases.fillRunner(runner);
+
+            runner.run();
         }
     }
 }

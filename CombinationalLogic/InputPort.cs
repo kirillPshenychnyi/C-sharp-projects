@@ -21,6 +21,7 @@ namespace CombinationalLogic
         public override bool Value
         {
             get { return m_value; }
+            set { m_value = value; }
         }
 
         /***************************************************************************/

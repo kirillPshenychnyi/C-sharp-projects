@@ -23,6 +23,7 @@ namespace CombinationalLogic
             _runner.addTest("simple NAND", simpleNAND);
             _runner.addTest("simple NOR", simpleNOR);
             _runner.addTest("simple XNOR", simpleXNOR);
+            _runner.addTest("half adder", halfAdder);
         }
 
         /***************************************************************************/
@@ -216,6 +217,49 @@ namespace CombinationalLogic
 
             xnorElement.setInputPortValue("b", false);
             Debug.Assert(xnorElement.getValueFromPort("out") == true);
+
+        }
+
+        private static void halfAdder()
+        {
+            /*
+                x y s c
+                0 0 0 0 
+                0 1 1 0
+                1 0 1 0
+                1 1 0 1
+            */
+
+            CombinationalScheme halfAdder = new CombinationalScheme("half_adder");
+
+            halfAdder.addInputPort("x");
+            halfAdder.addInputPort("y");
+
+            halfAdder.addBinaryElement(Element.OperationType.Enum.XOR, "xor_adder", "x", "y");
+            halfAdder.addBinaryElement(Element.OperationType.Enum.AND, "carry", "x", "y");
+
+            halfAdder.addOutputPort("s", "xor_adder");
+            halfAdder.addOutputPort("c", "carry");
+
+            Debug.Assert(halfAdder.getValueFromPort("s") == false);
+            Debug.Assert(halfAdder.getValueFromPort("c") == false);
+
+            halfAdder.setInputPortValue("x", true);
+
+            Debug.Assert(halfAdder.getValueFromPort("s") == true);
+            Debug.Assert(halfAdder.getValueFromPort("c") == false);
+
+            halfAdder.setInputPortValue("x", false);
+            halfAdder.setInputPortValue("x", true);
+
+            Debug.Assert(halfAdder.getValueFromPort("s") == true);
+            Debug.Assert(halfAdder.getValueFromPort("c") == false);
+
+            halfAdder.setInputPortValue("x", true);
+            halfAdder.setInputPortValue("y", true);
+
+            Debug.Assert(halfAdder.getValueFromPort("s") == false);
+            Debug.Assert(halfAdder.getValueFromPort("c") == true);
 
         }
 

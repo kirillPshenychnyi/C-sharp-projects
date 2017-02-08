@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+/***************************************************************************/
 
 namespace LogicalModel.Implementation
 {
+    /***************************************************************************/
+
     using API;
+
+    /***************************************************************************/
 
     public class Port : IPort
     {
@@ -14,17 +15,18 @@ namespace LogicalModel.Implementation
 
         public Port()
         {
-            m_logicValue = LogicValue.Value.Unknown;
+            m_logicValue = API.LogicValue.Enum.Unknown;
         }
 
         /***************************************************************************/
 
-        public LogicValue.Value logicValue
+        public LogicValue.Enum LogicValue
         {
             get
             {
                 return m_logicValue;
             }
+         
             set
             {
                 m_logicValue = value;
@@ -33,8 +35,10 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
-        private LogicValue.Value m_logicValue;
+        private LogicValue.Enum m_logicValue;
 
         /***************************************************************************/
     }
 }
+
+/***************************************************************************/

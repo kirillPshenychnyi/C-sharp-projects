@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+/***************************************************************************/
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LogicalModel.API;
 using LogicalModel.Implementation;
 using TestModule.Fakes;
+
+/***************************************************************************/
 
 namespace TestModule.Suites
 {
@@ -117,8 +117,8 @@ namespace TestModule.Suites
             ILineCollection lineCollection = new LineCollection( 3 );
 
             Assert.AreEqual( lineCollection.Size,  3) ;
-            for ( int i = 0; i < 3; ++i )
-                Assert.IsNull( lineCollection[ i ] );
+            foreach( ILine line in lineCollection )
+                Assert.IsNull( line );
             
             ILineCollection lineCollection2 = new LineCollection( 5 );
 
@@ -199,3 +199,5 @@ namespace TestModule.Suites
         /***************************************************************************/
     }
 }
+
+/***************************************************************************/

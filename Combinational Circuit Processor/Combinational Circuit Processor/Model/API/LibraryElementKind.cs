@@ -3,13 +3,21 @@
 
 namespace LogicalModel.API
 {
-    public interface ILogicalElement
+    public class LibraryElementKind
     {
         /***************************************************************************/
 
-        int ID { get; }
-
-        LogicValue.Enum evaluate();
+        public enum Enum
+        {
+            AND
+         ,  OR
+         ,  XOR
+         ,  Inverter
+         ,  MUX 
+         ,  DMX
+         ,  ENC
+         ,  DC
+        }
 
         /***************************************************************************/
     }

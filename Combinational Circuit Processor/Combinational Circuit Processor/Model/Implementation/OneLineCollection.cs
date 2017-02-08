@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+/***************************************************************************/
 
 namespace LogicalModel.Implementation
 {
+    /***************************************************************************/
+
     using API;
+
+    /***************************************************************************/
 
     public class OneLineCollection : BaseLineCollection
     {
+        /***************************************************************************/
+
         public OneLineCollection( ILine _line )
         {
             m_line = _line;
         }
+
+        /***************************************************************************/
 
         public override int Size
         {
@@ -22,6 +27,8 @@ namespace LogicalModel.Implementation
                 return 1;
             }
         }
+
+        /***************************************************************************/
 
         public override ILine this[ int i ]
         {
@@ -40,8 +47,17 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
+        public override System.Collections.IEnumerator GetEnumerator()
+        {
+            yield return m_line;
+        }
+
+        /***************************************************************************/
+
         private ILine m_line;
 
         /***************************************************************************/
     }
 }
+
+/***************************************************************************/

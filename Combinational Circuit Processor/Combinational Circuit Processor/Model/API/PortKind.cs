@@ -3,13 +3,15 @@
 
 namespace LogicalModel.API
 {
-    public interface ILogicalElement
+    public class PortKind
     {
         /***************************************************************************/
 
-        int ID { get; }
-
-        LogicValue.Enum evaluate();
+        public enum Enum
+        {
+            Input
+          , Output
+        }
 
         /***************************************************************************/
     }

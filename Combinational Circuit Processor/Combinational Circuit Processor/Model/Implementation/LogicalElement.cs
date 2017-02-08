@@ -1,10 +1,6 @@
 ﻿
 /***************************************************************************/
 
-using System;
-
-/***************************************************************************/
-
 namespace LogicalModel.Implementation
 {
     /***************************************************************************/
@@ -13,45 +9,49 @@ namespace LogicalModel.Implementation
 
     /***************************************************************************/
 
-    public class EmptyLineCollection : ILineCollection
+    abstract public class LogicalElement : ILogicalElement
     {
+
         /***************************************************************************/
 
-        public int Size
+        public LogicalElement( int _id )
+        {
+            m_id = _id;
+        }
+
+        /***************************************************************************/
+
+        public int ID
         {
             get
             {
-                return 0;
+                return m_id;
             }
         }
 
         /***************************************************************************/
 
-        public ILine this[ int i ]
+        void connectInput( ILine _line, int _pin )
         {
-            get
-            {
-                throw new MemberAccessException( 
-                    Resoursers.Exceptions.Messages.gettingLineFromEmptyCollection
-                );
-            }
+            m_inputPorts[ _pin ] = _line;
+        }
 
-            set
-            {
-                throw new MemberAccessException(
-                    Resoursers.Exceptions.Messages.addingLineToEmptyCollection
-                );
-            }
+        void connectOutput( ILine _line, int _pin )
+        {
+            m_outputPorts[ _pin ] = _line;
         }
 
         /***************************************************************************/
 
-        public System.Collections.IEnumerator GetEnumerator()
-        {
-            throw new MemberAccessException(
-                    Resoursers.Exceptions.Messages.gettingLineFromEmptyCollection
-                );
-        }
+        public abstract LogicValue.Enum evaluate();
+
+        /***************************************************************************/
+
+        private readonly int m_id;
+
+        private readonly ILineCollection m_inputPorts;
+
+        private readonly ILineCollection m_outputPorts;
 
         /***************************************************************************/
     }

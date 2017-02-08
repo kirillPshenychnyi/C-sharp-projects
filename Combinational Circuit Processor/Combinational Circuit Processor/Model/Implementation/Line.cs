@@ -1,15 +1,34 @@
-﻿using System;
+﻿
+/***************************************************************************/
+
+using System;
 using System.Collections.Generic;
+
+/***************************************************************************/
 
 namespace LogicalModel.Implementation
 {
+    /***************************************************************************/
+
     using API;
     using ElementPin    = Tuple< API.ILogicalElement, int > ;
     using PinsSet       = HashSet< int >;
     using Elements2Pins = Dictionary< API.ILogicalElement, HashSet< int > >;
 
+    /***************************************************************************/
+
     public class Line : ILine
     {
+        /***************************************************************************/
+
+        public Line(ILogicalElement _element, int _pin)
+        {
+            m_sourceElement = new ElementPin(_element, _pin);
+            m_elements2Pins = new Elements2Pins();
+        }
+
+        /***************************************************************************/
+
         public ElementPin SourceElement
         {
             get
@@ -17,6 +36,8 @@ namespace LogicalModel.Implementation
                 return m_sourceElement;
             }
         }
+
+        /***************************************************************************/
 
         public int ElementsConnected
         {
@@ -26,20 +47,18 @@ namespace LogicalModel.Implementation
             }
         }
 
-        public Line( ILogicalElement _element, int _pin )
-        {
-            m_sourceElement = new ElementPin( _element, _pin ); 
-            m_elements2Pins = new Elements2Pins();
-        }
+        /***************************************************************************/
 
         public PinsSet getConnections( ILogicalElement _element )
         {
             if( !hasConnectionsWithElement( _element ) )
                 throw new ArgumentException(
-                   string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.Name ) );
+                   string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
 
             return m_elements2Pins[ _element ];
         }
+
+        /***************************************************************************/
 
         public void addConnection( ILogicalElement _element, int _pin )
         {
@@ -49,7 +68,7 @@ namespace LogicalModel.Implementation
 
             if ( hasConnection( _element, _pin ) )
                 throw new ArgumentException(
-                    string.Format( Resoursers.Exceptions.Messages.duplicateConnection, _element.Name ) );
+                    string.Format( Resoursers.Exceptions.Messages.duplicateConnection, _element.ID ) );
             
             if( hasConnectionsWithElement( _element ) ) 
                 m_elements2Pins[ _element ].Add( _pin );
@@ -61,17 +80,19 @@ namespace LogicalModel.Implementation
             }         
         }
 
+        /***************************************************************************/
+
         public void removeConnection( ILogicalElement _element, int _pin )
         {
             if ( !hasConnectionsWithElement( _element ) )
                 throw new ArgumentException(
-                    string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.Name ) );
+                    string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
 
             PinsSet set = m_elements2Pins[ _element ];
             
             if( !set.Contains( _pin ) )
                 throw new ArgumentException(
-                    string.Format( Resoursers.Exceptions.Messages.noPinConnection, _pin, _element.Name ) );
+                    string.Format( Resoursers.Exceptions.Messages.noPinConnection, _pin, _element.ID ) );
 
             set.Remove( _pin );
 
@@ -79,19 +100,25 @@ namespace LogicalModel.Implementation
                 m_elements2Pins.Remove( _element );
         }
 
+        /***************************************************************************/
+
         public void removeConnection( ILogicalElement _element )
         {
             if( !hasConnectionsWithElement( _element ) )
                 throw new ArgumentException(
-                   String.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.Name ) );
+                   String.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
 
             m_elements2Pins.Remove( _element );
         }
+
+        /***************************************************************************/
 
         public bool hasConnectionsWithElement( ILogicalElement _element )
         {
             return m_elements2Pins.ContainsKey( _element );
         }
+
+        /***************************************************************************/
 
         public bool hasConnection( ILogicalElement _element, int _pin )
         {
@@ -109,3 +136,5 @@ namespace LogicalModel.Implementation
         /***************************************************************************/
     }
 }
+
+/***************************************************************************/

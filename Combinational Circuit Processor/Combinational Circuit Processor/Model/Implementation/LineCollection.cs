@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+/***************************************************************************/
+
+using System;
+
+/***************************************************************************/
 
 namespace LogicalModel.Implementation
 {
+    /***************************************************************************/
+
     using API;
+
+    /***************************************************************************/
 
     public class LineCollection : BaseLineCollection
     {
+        /***************************************************************************/
+
         public LineCollection( int _size )
         {
             if (_size <= 0)
@@ -18,6 +25,8 @@ namespace LogicalModel.Implementation
 
             m_lines = new ILine[ _size ];
         }
+
+        /***************************************************************************/
 
         public override ILine this[ int i ]
         {
@@ -34,6 +43,8 @@ namespace LogicalModel.Implementation
             }
         }
 
+        /***************************************************************************/
+
         public override int Size
         {
             get
@@ -43,9 +54,19 @@ namespace LogicalModel.Implementation
         }
 
         /***************************************************************************/
-    
+
+        public override System.Collections.IEnumerator GetEnumerator()
+        {
+            foreach ( ILine line in m_lines )
+                yield return line;
+        }
+
+        /***************************************************************************/
+
         private ILine[] m_lines;
 
         /***************************************************************************/
     }
 }
+
+/***************************************************************************/

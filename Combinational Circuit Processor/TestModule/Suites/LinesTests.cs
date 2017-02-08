@@ -1,16 +1,24 @@
-﻿using System;
+﻿
+/***************************************************************************/
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LogicalModel.API;
 using LogicalModel.Implementation;
 using TestModule.Fakes;
 using System.Collections.Generic;
 
+/***************************************************************************/
+
 namespace TestModule.Suites
 {
+    /***************************************************************************/
+
     using PinsSet = HashSet< int >;
 
-    [ TestClass ]
+    /***************************************************************************/
+
+    [TestClass ]
     public class LinesTests
     {
         /***************************************************************************/
@@ -120,3 +128,4 @@ namespace TestModule.Suites
     }
 }
 
+/***************************************************************************/

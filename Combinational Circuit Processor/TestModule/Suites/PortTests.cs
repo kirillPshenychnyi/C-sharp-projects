@@ -1,8 +1,11 @@
 ﻿
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+/***************************************************************************/
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LogicalModel.API;
 using LogicalModel.Implementation;
+
+/***************************************************************************/
 
 namespace TestModule.Suites
 {
@@ -16,7 +19,7 @@ namespace TestModule.Suites
         {
             IPort port = new Port();
 
-            Assert.AreEqual( port.logicValue, LogicValue.Value.Unknown );
+            Assert.AreEqual( port.LogicValue, LogicValue.Enum.Unknown );
         }
 
         /***************************************************************************/
@@ -26,19 +29,21 @@ namespace TestModule.Suites
         {
             IPort port = new Port();
 
-            port.logicValue = LogicValue.Value.High;
+            port.LogicValue = LogicValue.Enum.High;
 
-            Assert.AreEqual( port.logicValue, LogicValue.Value.High );
+            Assert.AreEqual( port.LogicValue, LogicValue.Enum.High );
 
-            port.logicValue = LogicValue.Value.Low;
+            port.LogicValue = LogicValue.Enum.Low;
 
-            Assert.AreEqual( port.logicValue, LogicValue.Value.Low );
+            Assert.AreEqual( port.LogicValue, LogicValue.Enum.Low );
 
-            port.logicValue = LogicValue.Value.Unknown;
+            port.LogicValue = LogicValue.Enum.Unknown;
 
-            Assert.AreEqual( port.logicValue, LogicValue.Value.Unknown );
+            Assert.AreEqual( port.LogicValue, LogicValue.Enum.Unknown );
         }
 
         /***************************************************************************/
     }
 }
+
+/***************************************************************************/

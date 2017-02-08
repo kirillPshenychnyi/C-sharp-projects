@@ -1,48 +1,47 @@
 ﻿
 /***************************************************************************/
 
-using System;
-
-/***************************************************************************/
-
 namespace LogicalModel.Implementation
 {
     /***************************************************************************/
 
-    using API;
+    using LogicalModel.API;
 
     /***************************************************************************/
 
-    public abstract class BaseLineCollection : ILineCollection
+    public class PortElement : LogicalElement
     {
         /***************************************************************************/
 
-        abstract public ILine this [ int i ]
+        public PortElement( Port _port, PortKind.Enum _kind, int _id )
+            :   base( _id )
         {
-            get;
-
-            set;
+            m_port = _port;
+            m_kind = _kind;
         }
 
         /***************************************************************************/
 
-        abstract public int Size
+        public PortKind.Enum Kind
         {
-            get;
+            get
+            {
+                return m_kind;
+            }
         }
 
         /***************************************************************************/
 
-        abstract public System.Collections.IEnumerator GetEnumerator();
+        public override LogicValue.Enum evaluate()
+        {
+            return m_port.LogicValue;
+        }
 
         /***************************************************************************/
 
-        protected void checkIndex( int _index )
-        {
-            if( ( _index < 0 ) || ( _index > Size ) )
-                throw new IndexOutOfRangeException(
-                    string.Format( Resoursers.Exceptions.Messages.wrongLineIndex, _index ) );
-        }
+        private readonly Port m_port;
+
+        private readonly PortKind.Enum m_kind;
 
         /***************************************************************************/
     }

@@ -1,18 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+/***************************************************************************/
 
 namespace TestModule.Fakes
 {
+    /***************************************************************************/
+
     using LogicalModel.API;
+
+    /***************************************************************************/
 
     public class FakeElement : ILogicalElement
     {
-        public string Name
+        /***************************************************************************/
+
+        public int ID
         {
-            get { return "dummy";  }
+            get { return 0;  }
         }
+
+        public LogicValue.Enum evaluate()
+        {
+            return LogicValue.Enum.Unknown;
+        }
+
+        /***************************************************************************/
     }
 }
+
+/***************************************************************************/

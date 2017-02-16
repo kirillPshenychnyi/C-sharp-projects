@@ -54,6 +54,24 @@ namespace LogicalModel.Implementation
         }
 
         /***************************************************************************/
+
+        public bool hasUnknownStates()
+        {
+            throw new MemberAccessException(
+                   Resoursers.Exceptions.Messages.noLinesToCheck
+               );
+        }
+
+        /***************************************************************************/
+
+        public bool hasValue( LogicValue.Enum _value )
+        {
+            throw new MemberAccessException(
+                   Resoursers.Exceptions.Messages.noLinesToCheck
+               );
+        }
+
+        /***************************************************************************/
     }
 }
 

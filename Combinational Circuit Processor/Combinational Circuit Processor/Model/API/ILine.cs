@@ -20,6 +20,7 @@ namespace LogicalModel.API
         ElementPin SourceElement
         {
             get;
+            set;
         }
 
         int ElementsConnected
@@ -28,6 +29,12 @@ namespace LogicalModel.API
         }
 
         PinsSet getConnections( ILogicalElement _element );
+
+        LogicValue.Enum Value
+        {
+            get;
+            set;
+        }
 
         void addConnection( ILogicalElement _element, int _pin );
         void removeConnection( ILogicalElement _element, int _pin );

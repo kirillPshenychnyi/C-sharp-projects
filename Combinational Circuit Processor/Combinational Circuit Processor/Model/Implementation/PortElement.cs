@@ -13,16 +13,28 @@ namespace LogicalModel.Implementation
     {
         /***************************************************************************/
 
-        public PortElement( Port _port, PortKind.Enum _kind, int _id )
-            :   base( _id )
+        public PortElement(
+                PortKind.Enum _portKind
+              , int _id
+              , ILineCollection _inputs
+              , ILineCollection _outputs
+        )
+            : base( 
+                  _id
+                , LibraryElementKind.Enum.Port
+                , LogicalFunctionsLibrary.portElement
+                , LogicalFunctionsLibrary.primitivesModifier 
+                , _inputs
+                , _outputs
+            )
         {
-            m_port = _port;
-            m_kind = _kind;
+            m_port = new Port();
+            m_kind = _portKind;
         }
 
         /***************************************************************************/
 
-        public PortKind.Enum Kind
+        public PortKind.Enum PortKind
         {
             get
             {
@@ -30,16 +42,22 @@ namespace LogicalModel.Implementation
             }
         }
 
-        /***************************************************************************/
-
-        public override LogicValue.Enum evaluate()
+        public LogicValue.Enum Value
         {
-            return m_port.LogicValue;
-        }
+            get
+            {
+                return Outputs[ 0 ].Value;
+            }
 
+            set
+            {
+                Outputs[ 0 ].Value = value;
+            }
+        }
+ 
         /***************************************************************************/
 
-        private readonly Port m_port;
+        private readonly IPort m_port;
 
         private readonly PortKind.Enum m_kind;
 

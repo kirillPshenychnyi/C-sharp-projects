@@ -9,7 +9,21 @@ namespace LogicalModel.API
 
         int ID { get; }
 
-        LogicValue.Enum evaluate();
+        void evaluate();
+
+        void updateValue( int _pin, LogicValue.Enum _value );
+
+        void makeConnection( 
+            ILogicalElement _elem
+          , int _inputPin 
+          , int _outputPin
+        );
+
+        LibraryElementKind.Enum Kind { get; }
+
+        ILineCollection Inputs { get; }
+
+        ILineCollection Outputs { get; }
 
         /***************************************************************************/
     }

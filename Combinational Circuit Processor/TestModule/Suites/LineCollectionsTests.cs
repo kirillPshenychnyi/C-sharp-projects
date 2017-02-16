@@ -3,14 +3,19 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LogicalModel.API;
-using LogicalModel.Implementation;
-using TestModule.Fakes;
 
 /***************************************************************************/
 
 namespace TestModule.Suites
 {
+    /***************************************************************************/
+
+    using LogicalModel.API;
+    using LogicalModel.Implementation;
+    using TestModule.Fakes;
+
+    /***************************************************************************/
+
     [ TestClass ]
     public class LineCollectionsTests
     {

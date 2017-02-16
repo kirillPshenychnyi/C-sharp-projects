@@ -21,10 +21,24 @@ namespace LogicalModel.Implementation
     {
         /***************************************************************************/
 
-        public Line(ILogicalElement _element, int _pin)
+        private void baseInit()
         {
-            m_sourceElement = new ElementPin(_element, _pin);
             m_elements2Pins = new Elements2Pins();
+            m_value = LogicValue.Enum.Unknown;
+        }
+
+        /***************************************************************************/
+
+        public Line( ILogicalElement _element, int _pin )
+        {
+            m_sourceElement = new ElementPin( _element, _pin );
+            baseInit();
+        }
+
+        public Line()
+        {
+            m_sourceElement = null;
+            baseInit();
         }
 
         /***************************************************************************/
@@ -34,6 +48,31 @@ namespace LogicalModel.Implementation
             get
             {
                 return m_sourceElement;
+            }
+
+            set
+            {
+                m_sourceElement = value;
+            }
+        }
+
+        public LogicValue.Enum Value
+        {
+            get
+            {
+                return m_value;
+            }
+            set
+            {
+                m_value = value;
+
+                foreach( var connection in m_elements2Pins )
+                {
+                    foreach( int connectedPin in connection.Value )
+                    {
+                        connection.Key.evaluate();
+                    }
+                }
             }
         }
 
@@ -45,6 +84,7 @@ namespace LogicalModel.Implementation
             {
                 return m_elements2Pins.Count;
             }
+
         }
 
         /***************************************************************************/
@@ -62,7 +102,7 @@ namespace LogicalModel.Implementation
 
         public void addConnection( ILogicalElement _element, int _pin )
         {
-            if ( _element == m_sourceElement.Item1 )
+            if ( m_sourceElement != null && _element == m_sourceElement.Item1 )
                 throw new ArgumentException(
                     Resoursers.Exceptions.Messages.combinationalFeedback );
 
@@ -106,7 +146,7 @@ namespace LogicalModel.Implementation
         {
             if( !hasConnectionsWithElement( _element ) )
                 throw new ArgumentException(
-                   String.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
+                   string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
 
             m_elements2Pins.Remove( _element );
         }
@@ -130,9 +170,10 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
-        private readonly ElementPin m_sourceElement;
+        private ElementPin m_sourceElement;
         private Elements2Pins m_elements2Pins;
-       
+        private LogicValue.Enum m_value;
+
         /***************************************************************************/
     }
 }

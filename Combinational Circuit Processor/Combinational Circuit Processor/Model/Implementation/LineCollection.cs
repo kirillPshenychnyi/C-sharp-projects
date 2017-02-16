@@ -1,7 +1,8 @@
 ﻿
-/***************************************************************************/
+/*****************************************************************************/
 
 using System;
+using System.Linq;
 
 /***************************************************************************/
 
@@ -10,16 +11,16 @@ namespace LogicalModel.Implementation
     /***************************************************************************/
 
     using API;
-
+    
     /***************************************************************************/
 
     public class LineCollection : BaseLineCollection
     {
         /***************************************************************************/
-
+        
         public LineCollection( int _size )
         {
-            if (_size <= 0)
+            if ( _size <= 0 )
                 throw new ArgumentException( 
                     string.Format( Resoursers.Exceptions.Messages.wrongLineCollectionSize, _size ) );
 
@@ -59,6 +60,18 @@ namespace LogicalModel.Implementation
         {
             foreach ( ILine line in m_lines )
                 yield return line;
+        }
+
+        /***************************************************************************/
+
+        public override bool hasUnknownStates()
+        {
+            return hasValue( LogicValue.Enum.Unknown );
+        }
+
+        public override bool hasValue( LogicValue.Enum _value )
+        {
+            return m_lines.Any( line => line.Value == _value );
         }
 
         /***************************************************************************/

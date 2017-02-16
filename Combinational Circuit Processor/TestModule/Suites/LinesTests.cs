@@ -3,15 +3,18 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LogicalModel.API;
-using LogicalModel.Implementation;
-using TestModule.Fakes;
 using System.Collections.Generic;
 
 /***************************************************************************/
 
 namespace TestModule.Suites
 {
+    /***************************************************************************/
+
+    using LogicalModel.API;
+    using LogicalModel.Implementation;
+    using TestModule.Fakes;
+
     /***************************************************************************/
 
     using PinsSet = HashSet< int >;
@@ -98,11 +101,11 @@ namespace TestModule.Suites
         ]
         public void duplicateConnection()
         {
-            ILogicalElement sourceElement = new Fakes.FakeElement();
+            ILogicalElement sourceElement = new FakeElement();
 
             ILine line = new Line( sourceElement, 0 );
             
-            Fakes.FakeElement element = new Fakes.FakeElement();
+            FakeElement element = new FakeElement();
 
             line.addConnection( element, 0 );
             line.addConnection( element, 0 );
@@ -117,7 +120,7 @@ namespace TestModule.Suites
         ]
         public void combinationalFeedback()
         {
-            ILogicalElement sourceElement = new Fakes.FakeElement();
+            ILogicalElement sourceElement = new FakeElement();
 
             ILine line = new Line( sourceElement, 0 );
 

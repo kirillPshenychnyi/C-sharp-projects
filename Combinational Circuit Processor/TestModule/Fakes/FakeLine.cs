@@ -43,6 +43,36 @@ namespace TestModule.Fakes
 
         /***************************************************************************/
 
+        ElementNumberPair ILine.SourceElement
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /***************************************************************************/
+
+        public LogicValue.Enum Value
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /***************************************************************************/
+
         public void addConnection( ILogicalElement _element, int _pin )
         {
             throw new NotImplementedException();

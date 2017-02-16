@@ -2,13 +2,18 @@
 /***************************************************************************/
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LogicalModel.API;
-using LogicalModel.Implementation;
 
 /***************************************************************************/
 
 namespace TestModule.Suites
 {
+    /***************************************************************************/
+
+    using LogicalModel.API;
+    using LogicalModel.Implementation;
+
+    /***************************************************************************/
+
     [ TestClass ]
     public class PortLinesTests
     {

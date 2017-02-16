@@ -33,6 +33,14 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
+        public abstract bool hasUnknownStates();
+
+        /***************************************************************************/
+
+        public abstract bool hasValue( LogicValue.Enum _value );
+
+        /***************************************************************************/
+
         abstract public System.Collections.IEnumerator GetEnumerator();
 
         /***************************************************************************/

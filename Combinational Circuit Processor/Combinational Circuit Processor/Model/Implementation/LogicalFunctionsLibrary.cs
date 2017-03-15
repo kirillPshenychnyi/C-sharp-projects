@@ -143,56 +143,59 @@ namespace LogicalModel.Implementation
 
         public static void encoder( ILogicalElement _element )
         {
-		ILineCollection inputs = _element.Inputs;
-		ILineCollection outputs = _element.Outputs;
+            ILineCollection inputs = _element.Inputs;
+		    ILineCollection outputs = _element.Outputs;
 
-		if ( inputs.hasValue( LogicValue.Enum.Unknown ) )
-		{
-      outputs.setToAllLines( LogicValue.Enum.Unknown );
-			return;
-		}
+		    if ( inputs.hasValue( LogicValue.Enum.Unknown ) )
+		    {
+                outputs.setToAllLines( LogicValue.Enum.Unknown );
+			    return;
+		    }
 
-		int enableIndex = inputs.Size - 1;
-		if ( inputs[ enableIndex ].Value == LogicValue.Enum.Low )
-		{
-      outputs.setToAllLines( LogicValue.Enum.Low );
-			return;
-		}
+		    int enableIndex = inputs.Size - 1;
+		    if ( inputs[ enableIndex ].Value == LogicValue.Enum.Low )
+		    {
+                outputs.setToAllLines( LogicValue.Enum.Low );
+			    return;
+		    }
 
-		if ( inputs[ enableIndex ].Value == LogicValue.Enum.DontCare )
-		{
-      outputs.setToAllLines( LogicValue.Enum.DontCare );
-			return;
-		}
+		    if ( inputs[ enableIndex ].Value == LogicValue.Enum.DontCare )
+		    {
+                outputs.setToAllLines( LogicValue.Enum.DontCare );
+			    return;
+		    }
 
-            	int highValueIndex = -1;
+            int highValueIndex = -1;
 
-            	for( int i = enableIndex - 1; i >= 0; --i  )
-	   				{
-	                if ( inputs[ i ].Value == LogicValue.Enum.High )
-                  {
+            for( int i = enableIndex - 1; i >= 0; --i  )
+	   		{
+	            if ( inputs[ i ].Value == LogicValue.Enum.High )
+                {
                     highValueIndex = i;
                     break;
-                  }
-                  if (  inputs[ i ].Value == LogicValue.Enum.DontCare )
-                  {
+                }
+
+                if (  inputs[ i ].Value == LogicValue.Enum.DontCare )
+                {
                     outputs.setToAllLines( LogicValue.Enum.DontCare );
                     return;
-                  }
-          }
-          if ( highValueIndex == -1 )
-          {
-            outputs.setToAllLines( LogicValue.Enum.DontCare );
-            return;
-          }
-		int outputsCount = outputs.Size;
-		LogicValuesNumbersConverter converter = new LogicValuesNumbersConverter();
-		LogicSet outputSet = converter.toLogicSet( highValueIndex, outputsCount );
+                }
+            }
 
-		for ( int i = 0; i < outputsCount; ++i  )
-		{
-			outputs[ i ].Value = outputSet[i];
-		}
+            if ( highValueIndex == -1 )
+            {
+                outputs.setToAllLines( LogicValue.Enum.DontCare );
+                return;
+            }
+
+		    int outputsCount = outputs.Size;
+		    LogicValuesNumbersConverter converter = new LogicValuesNumbersConverter();
+		    LogicSet outputSet = converter.toLogicSet( highValueIndex, outputsCount );
+
+		    for ( int i = 0; i < outputsCount; ++i  )
+		    {
+			    outputs[ i ].Value = outputSet[i];
+		    }
           
         }
 
@@ -204,36 +207,36 @@ namespace LogicalModel.Implementation
            
             int totalInputsCount = inputs.Size;
 	
-		int firstAddressPortIndex = totalInputsCount - _element.modifier;
+		    int firstAddressPortIndex = totalInputsCount - _element.modifier;
 
-		if ( inputs.hasValue( LogicValue.Enum.Unknown ) )
-		{
-			_element.Outputs[ 0 ].Value = LogicValue.Enum.Unknown;
-			return;
-		}
+		    if ( inputs.hasValue( LogicValue.Enum.Unknown ) )
+		    {
+			    _element.Outputs[ 0 ].Value = LogicValue.Enum.Unknown;
+			    return;
+		    }
 		
-		LogicValuesNumbersConverter converter = new LogicValuesNumbersConverter();
-		Numbers inputLineNumbers = converter.toNumbers( inputs, firstAddressPortIndex, totalInputsCount - 1 );
+		    LogicValuesNumbersConverter converter = new LogicValuesNumbersConverter();
+		    Numbers inputLineNumbers = converter.toNumbers( inputs, firstAddressPortIndex, totalInputsCount - 1 );
 
-		int numbersCount = inputLineNumbers.Count;
-		if ( numbersCount < 1 )
-		{
-			_element.Outputs[ 0 ].Value = LogicValue.Enum.Unknown;
-			return;
-		}
+		    int numbersCount = inputLineNumbers.Count;
+		    if ( numbersCount < 1 )
+		    {
+			    _element.Outputs[ 0 ].Value = LogicValue.Enum.Unknown;
+			    return;
+		    }
 
-		LogicValue.Enum inputValue = inputs[ inputLineNumbers[ 0 ] ].Value;
+		    LogicValue.Enum inputValue = inputs[ inputLineNumbers[ 0 ] ].Value;
           
-		for ( int i = 1; i < numbersCount; ++i )
-		{
-			if ( inputValue != inputs[ inputLineNumbers[ i ] ].Value )
-			{
-				_element.Outputs[ 0 ].Value = LogicValue.Enum.DontCare;
-				return;
-			}
-		}
+		    for ( int i = 1; i < numbersCount; ++i )
+		    {
+			    if ( inputValue != inputs[ inputLineNumbers[ i ] ].Value )
+			    {
+				    _element.Outputs[ 0 ].Value = LogicValue.Enum.DontCare;
+				    return;
+			    }
+		    }
 
-		_element.Outputs[ 0 ].Value = inputValue;
+		    _element.Outputs[ 0 ].Value = inputValue;
         }
 
         /***************************************************************************/
@@ -258,42 +261,40 @@ namespace LogicalModel.Implementation
 
         public static void dmx( ILogicalElement _element )
         {
-		ILineCollection inputs = _element.Inputs;
-		ILineCollection outputs = _element.Outputs;
+		    ILineCollection inputs = _element.Inputs;
+		    ILineCollection outputs = _element.Outputs;
 
-		if ( inputs.hasValue( LogicValue.Enum.Unknown ) )
-		{
-      outputs.setToAllLines( LogicValue.Enum.Unknown );
-			return;
-		}
-    outputs.setToAllLines( LogicValue.Enum.Low );
+		    if ( inputs.hasValue( LogicValue.Enum.Unknown ) )
+		    {
+                outputs.setToAllLines( LogicValue.Enum.Unknown );
+			    return;
+		    }
 
-		int enableIndex = inputs.Size - 1;
-		int informationInputIndex = enableIndex - 1;
+            outputs.setToAllLines( LogicValue.Enum.Low );
 
-		if ( inputs[ enableIndex ].Value == LogicValue.Enum.Low )
-			return;
+		    int enableIndex = inputs.Size - 1;
+		    int informationInputIndex = enableIndex - 1;
 
-		if ( inputs[ informationInputIndex ].Value == LogicValue.Enum.Low )
-			return;
+		    if ( inputs[ enableIndex ].Value == LogicValue.Enum.Low )
+			    return;
 
-		LogicValuesNumbersConverter converter = new LogicValuesNumbersConverter();
-		Numbers outputLineNumbers = converter.toNumbers( inputs, 0, informationInputIndex - 1 );
+		    if ( inputs[ informationInputIndex ].Value == LogicValue.Enum.Low )
+			    return;
 
-		int outputLineNumbersCount = outputLineNumbers.Count;
+		    LogicValuesNumbersConverter converter = new LogicValuesNumbersConverter();
+		    Numbers outputLineNumbers = converter.toNumbers( inputs, 0, informationInputIndex - 1 );
 
-		if ( outputLineNumbersCount == 1 )
-			outputs[ outputLineNumbers[ 0 ] ].Value = inputs[ informationInputIndex ].Value;
-		else
-		{
-			for ( int i = 0; i < outputLineNumbersCount; ++i )
-			{
-				outputs[ outputLineNumbers[ i ] ].Value = LogicValue.Enum.DontCare;
-			}
-		}
+		    int outputLineNumbersCount = outputLineNumbers.Count;
 
-            
-            // TODO by nikitam
+		    if ( outputLineNumbersCount == 1 )
+			    outputs[ outputLineNumbers[ 0 ] ].Value = inputs[ informationInputIndex ].Value;
+		    else
+		    {
+			    for ( int i = 0; i < outputLineNumbersCount; ++i )
+			    {
+				    outputs[ outputLineNumbers[ i ] ].Value = LogicValue.Enum.DontCare;
+			    }
+		    }
         }
 
         /***************************************************************************/
@@ -377,61 +378,53 @@ namespace LogicalModel.Implementation
 		/***************************************************************************/
 
         public static int muxInputsCalculator( int _modifier )
-        {
-			
+        {		
             return ( int )Math.Pow( 2, _modifier ) + _modifier;
         }
 		
 		/***************************************************************************/
 
         public static int dmxInputsCalculator( int _modifier )
-        {
-			
+        {			
             return 1 + 1 + _modifier;
         }
 		
 		/***************************************************************************/
 
         public static int dmxOutputsCalculator( int _modifier )
-        {
-			
+        {		
             return ( int )Math.Pow( 2, _modifier );
         }
 		/***************************************************************************/
 
         public static int dcInputsCalculator( int _modifier )
-        {
-			
+        {		
             return 1 + _modifier;
         }
 		
 		/***************************************************************************/
 
         public static int dcOutputsCalculator( int _modifier )
-        {
-			
+        {		
             return ( int )Math.Pow( 2, _modifier );
         }
 		
 		/***************************************************************************/
 
         public static int encInputsCalculator( int _modifier )
-        {
-			
+        {		
             return ( int )Math.Pow( 2, _modifier ) + 1;
         }
 		
 		/***************************************************************************/
 
         public static int encOutputsCalculator( int _modifier )
-        {
-			
+        {			
             return ( int )Math.Pow( 2, _modifier ) + 1;
         }
 
         /***************************************************************************/
-		
-		
+			
     }
 }
 

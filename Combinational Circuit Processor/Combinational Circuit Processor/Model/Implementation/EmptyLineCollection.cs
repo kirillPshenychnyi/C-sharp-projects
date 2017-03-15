@@ -61,6 +61,13 @@ namespace LogicalModel.Implementation
                    Resoursers.Exceptions.Messages.noLinesToCheck
                );
         }
+      
+      /***************************************************************************/
+
+        public void setToAllLines( LogicValue.Enum _value )
+        {
+            throw new Exception();
+        }
 
         /***************************************************************************/
 

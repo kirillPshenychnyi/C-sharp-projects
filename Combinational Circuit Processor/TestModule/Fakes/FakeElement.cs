@@ -54,6 +54,16 @@ namespace TestModule.Fakes
 
         /***************************************************************************/
 
+        public int modifier
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /***************************************************************************/
+
         public void makeConnection(ILogicalElement _elem, int _inputPin, int _outputPin)
         {
             throw new NotImplementedException();

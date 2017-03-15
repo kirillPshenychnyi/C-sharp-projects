@@ -26,6 +26,8 @@ namespace LogicalModel.API
         bool hasUnknownStates();
 
         bool hasValue( LogicValue.Enum _value );
+          
+        void setToAllLines( LogicValue.Enum _value );
 
         /***************************************************************************/
     }

@@ -16,17 +16,9 @@ namespace LogicalModel.Implementation
         public PortElement(
                 PortKind.Enum _portKind
               , int _id
-              , ILineCollection _inputs
-              , ILineCollection _outputs
+			  , ILibraryElementType _type
         )
-            : base( 
-                  _id
-                , LibraryElementKind.Enum.Port
-                , LogicalFunctionsLibrary.portElement
-                , LogicalFunctionsLibrary.primitivesModifier 
-                , _inputs
-                , _outputs
-            )
+            : base( _id, _type, 0 )
         {
             m_port = new Port();
             m_kind = _portKind;
@@ -46,12 +38,15 @@ namespace LogicalModel.Implementation
         {
             get
             {
-                return Outputs[ 0 ].Value;
+                return m_port.LogicValue;
             }
 
             set
             {
-                Outputs[ 0 ].Value = value;
+              	m_port.LogicValue = value;
+              	if ( m_kind == API.PortKind.Enum.Input )
+              		evaluate();
+
             }
         }
  

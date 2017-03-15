@@ -19,6 +19,7 @@ namespace Resoursers.Exceptions
         public const string wrongCorrespondOfIOPorts       = "Cannot create {0} element with {1} inputs and {2} outputs";
         public const string unknownLogicalValue            = "Unknown logic value";
         public const string nonPrimitiveElement            = "Element {0} is not primitive. Use proper method for creating it";
+        public const string primitiveElement               = "Element {0} is primitive. Use method createLogicalPrimitive to create it";
         public const string wrongInputsCount               = "Cannot create {0} element with {1} inputs. At least {2} are required";
 
         /***************************************************************************/

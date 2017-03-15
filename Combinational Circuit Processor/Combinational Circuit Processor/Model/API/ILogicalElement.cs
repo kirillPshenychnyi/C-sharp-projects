@@ -14,9 +14,9 @@ namespace LogicalModel.API
         void updateValue( int _pin, LogicValue.Enum _value );
 
         void makeConnection( 
-            ILogicalElement _elem
-          , int _inputPin 
-          , int _outputPin
+                ILogicalElement _elem
+              , int _inputPin 
+              , int _outputPin
         );
 
         LibraryElementKind.Enum Kind { get; }
@@ -24,6 +24,8 @@ namespace LogicalModel.API
         ILineCollection Inputs { get; }
 
         ILineCollection Outputs { get; }
+		
+		int modifier { get; }
 
         /***************************************************************************/
     }

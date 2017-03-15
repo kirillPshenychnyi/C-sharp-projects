@@ -45,6 +45,28 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
+        public static ILineCollection createLineCollection( int _size )
+		{
+			switch( _size )
+			{
+				case 0:  return new EmptyLineCollection();
+				case 1:	 return new OneLineCollection( null );
+				default: return new LineCollection( _size );
+			}
+		}
+      
+      /***************************************************************************/
+
+        public void setToAllLines( LogicValue.Enum _value )
+        {
+            for ( int i = 0; i < Size; ++i )
+            {
+              this[ i ].Value = _value;
+            }
+        }
+
+        /***************************************************************************/
+
         protected void checkIndex( int _index )
         {
             if( ( _index < 0 ) || ( _index > Size ) )

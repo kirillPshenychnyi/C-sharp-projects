@@ -10,8 +10,6 @@ namespace LogicalModel.Implementation
     /***************************************************************************/
 
     using API;
-    using EvalFunction = Action< API.ILogicalElement >;
-    using ModifyFunction = Func< int, int >;
     using ElementPin = Tuple< API.ILogicalElement, int >;
 
     /***************************************************************************/
@@ -20,30 +18,32 @@ namespace LogicalModel.Implementation
     {
         /***************************************************************************/
 
-        public LogicalElement(
-            int _id
-          , LibraryElementKind.Enum _kind
-          , EvalFunction _eval
-          , ModifyFunction _modify
-          , ILineCollection _inputs
-          , ILineCollection _outPuts
-        )
+	    public LogicalElement(
+	        	int _id
+	        ,	ILibraryElementType _elementType
+			,	int _modifier
+            )
         {
-            m_modifyFunction = _modify;
-            m_evalFunction = _eval;
-            m_inputLines = _inputs;
-            m_outputLines = _outPuts;
-            m_elementKind = _kind;
-            m_id = _id;
+            	m_elementType = _elementType;
+				m_modifier = _modifier;
+            	m_id = _id;
+				int inputsCount = m_elementType.calculateInputs( m_modifier );
+				int outputsCount = m_elementType.calculateOutputs( m_modifier );
 
-            for (int i = 0; i < m_inputLines.Size; i++)
-            {
-                m_inputLines[ i ] = new Line();
-                m_inputLines[ i ].addConnection(this, i);
-            }
+				m_inputLines = BaseLineCollection.createLineCollection( inputsCount );
+				m_outputLines = BaseLineCollection.createLineCollection( outputsCount );
 
-            for ( int i = 0; i < m_outputLines.Size; i++ )
-                m_outputLines[ i ].SourceElement = new ElementPin( this, i );
+	            for (int i = 0; i < inputsCount; i++)
+	            {
+	                m_inputLines[ i ] = new Line();
+	                m_inputLines[ i ].addConnection(this, i);
+            	}
+
+                for ( int i = 0; i < outputsCount; i++ )
+                {
+              	    m_outputLines[ i ] = new Line();
+                    m_outputLines[ i ].SourceElement = new ElementPin( this, i );
+                }
         }
 
         /***************************************************************************/
@@ -60,7 +60,7 @@ namespace LogicalModel.Implementation
         {
             get
             {
-                return m_elementKind;
+                return m_elementType.elementKind;
             }
         }
 
@@ -79,6 +79,14 @@ namespace LogicalModel.Implementation
                 return m_outputLines;
             }
         }
+		
+		public int modifier
+		{
+			get
+			{
+				return m_modifier;
+			}
+		}
 
         /***************************************************************************/
 
@@ -97,7 +105,7 @@ namespace LogicalModel.Implementation
 
         public void evaluate()
         {
-            m_evalFunction( this );
+            m_elementType.evaluate( this );
         }
 
         /***************************************************************************/
@@ -109,15 +117,13 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
-        private ModifyFunction m_modifyFunction;
-
-        private EvalFunction m_evalFunction;
-
         private ILineCollection m_inputLines;
 
         private ILineCollection m_outputLines;
 
-        private readonly LibraryElementKind.Enum m_elementKind;
+        private readonly ILibraryElementType m_elementType;
+
+		private int m_modifier;
 
         private readonly int m_id;
   

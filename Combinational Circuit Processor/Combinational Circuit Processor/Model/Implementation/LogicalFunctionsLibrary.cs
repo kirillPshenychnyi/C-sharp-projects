@@ -34,7 +34,6 @@ namespace LogicalModel.Implementation
 				return;
 			}
 		
-
             if ( inputs.hasValue( _significantValue ) )
             {
                 outputs[ 0 ].Value = _valueToSet;

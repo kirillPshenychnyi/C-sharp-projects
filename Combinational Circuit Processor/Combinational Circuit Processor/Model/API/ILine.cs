@@ -36,6 +36,7 @@ namespace LogicalModel.API
             set;
         }
 
+        bool hasConnection( ILogicalElement _element );
         void addConnection( ILogicalElement _element, int _pin );
         void removeConnection( ILogicalElement _element, int _pin );
         void removeConnection( ILogicalElement _element );

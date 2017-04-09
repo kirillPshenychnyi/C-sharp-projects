@@ -4,6 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 /***************************************************************************/
 
+using PortList = System.Collections.Generic.List< LogicalModel.Implementation.PortElement >;
+
+/***************************************************************************/
+
 namespace TestModule.Suites
 {
     /***************************************************************************/
@@ -37,6 +41,8 @@ namespace TestModule.Suites
             PortElement e_port = factory.createPortElement( PortKind.Enum.Output );
             PortElement f_port = factory.createPortElement( PortKind.Enum.Output );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( cd, new PortList { e_port, f_port } );
+
             cd.makeConnection( a_port, 0, 0 );
 	        cd.makeConnection( b_port, 1, 0 );
 	        cd.makeConnection( c_port, 2, 0 );
@@ -58,6 +64,7 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.Low;
            	d_port.Value = LogicValue.Enum.Low;
 
+            evaluator.evaluate();
 		    Assert.AreEqual( e_port.Value, LogicValue.Enum.DontCare ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.DontCare );
 
@@ -65,15 +72,17 @@ namespace TestModule.Suites
            	b_port.Value = LogicValue.Enum.High;
 		    c_port.Value = LogicValue.Enum.High;
             d_port.Value = LogicValue.Enum.High;
-             
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.DontCare ); 
+
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.DontCare ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.DontCare );
 
 		    // enable low
 
 		    enable.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.Low );
 
 		    a_port.Value = LogicValue.Enum.High;
@@ -81,7 +90,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.High;
            	d_port.Value = LogicValue.Enum.High;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.Low );
 
 		    //enable high
@@ -94,7 +104,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.DontCare;
             d_port.Value = LogicValue.Enum.High;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.High );
 
 		    // 1010
@@ -103,7 +114,8 @@ namespace TestModule.Suites
 		    b_port.Value = LogicValue.Enum.High;
 		    c_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.High );
 
 		    // 01XX
@@ -113,7 +125,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.High;
            	d_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.High );
 
 		    // 0111
@@ -123,7 +136,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.High;
             d_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.High );
 
 		    // 001X
@@ -133,7 +147,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.Low;
             d_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.Low );
 
 		    // 0011
@@ -143,7 +158,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.Low;
            	d_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.High ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.Low );
 
 		    // 0001
@@ -153,7 +169,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.Low;
            	d_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.Low ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.Low );
 
 		    // 0X01
@@ -163,7 +180,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.DontCare;
            	d_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.DontCare ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.DontCare ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.DontCare );
           
             // 0000
@@ -173,7 +191,8 @@ namespace TestModule.Suites
 		    c_port.Value = LogicValue.Enum.Low;
            	d_port.Value = LogicValue.Enum.Low;
 
-		    Assert.AreEqual( e_port.Value, LogicValue.Enum.DontCare ); 
+            evaluator.evaluate();
+            Assert.AreEqual( e_port.Value, LogicValue.Enum.DontCare ); 
 		    Assert.AreEqual( f_port.Value, LogicValue.Enum.DontCare );
 
         /***************************************************************************/

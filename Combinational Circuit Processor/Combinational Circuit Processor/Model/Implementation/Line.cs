@@ -65,14 +65,6 @@ namespace LogicalModel.Implementation
             set
             {
                 m_value = value;
-
-                foreach( var connection in m_elements2Pins )
-                {
-                    foreach( int connectedPin in connection.Value )
-                    {
-                        connection.Key.evaluate();
-                    }
-                }
             }
         }
 
@@ -91,7 +83,7 @@ namespace LogicalModel.Implementation
 
         public PinsSet getConnections( ILogicalElement _element )
         {
-            if( !hasConnectionsWithElement( _element ) )
+            if( !hasConnection( _element ) )
                 throw new ArgumentException(
                    string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
 
@@ -110,7 +102,7 @@ namespace LogicalModel.Implementation
                 throw new ArgumentException(
                     string.Format( Resoursers.Exceptions.Messages.duplicateConnection, _element.ID ) );
             
-            if( hasConnectionsWithElement( _element ) ) 
+            if( hasConnection( _element ) ) 
                 m_elements2Pins[ _element ].Add( _pin );
             else
             {
@@ -124,7 +116,7 @@ namespace LogicalModel.Implementation
 
         public void removeConnection( ILogicalElement _element, int _pin )
         {
-            if ( !hasConnectionsWithElement( _element ) )
+            if ( !hasConnection( _element ) )
                 throw new ArgumentException(
                     string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
 
@@ -144,7 +136,7 @@ namespace LogicalModel.Implementation
 
         public void removeConnection( ILogicalElement _element )
         {
-            if( !hasConnectionsWithElement( _element ) )
+            if( !hasConnection( _element ) )
                 throw new ArgumentException(
                    string.Format( Resoursers.Exceptions.Messages.noElementConnection, _element.ID ) );
 
@@ -153,7 +145,7 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
-        public bool hasConnectionsWithElement( ILogicalElement _element )
+        public bool hasConnection( ILogicalElement _element )
         {
             return m_elements2Pins.ContainsKey( _element );
         }
@@ -162,7 +154,7 @@ namespace LogicalModel.Implementation
 
         public bool hasConnection( ILogicalElement _element, int _pin )
         {
-            if ( !hasConnectionsWithElement( _element ) ) 
+            if ( !hasConnection( _element ) ) 
                 return false;
 
             return m_elements2Pins[ _element ].Contains( _pin );

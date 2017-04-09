@@ -232,9 +232,9 @@ namespace LogicalModel.Implementation
 
         private int ms_currentID;
 
-        private System.Collections.Generic.Dictionary<LibraryElementKind.Enum, LibraryElementType> ms_elementTypes;
+        private System.Collections.Generic.Dictionary< LibraryElementKind.Enum, LibraryElementType > ms_elementTypes;
 
-        private System.Collections.Generic.Dictionary<PortKind.Enum, LibraryElementType> ms_portElementTypes;
+        private System.Collections.Generic.Dictionary< PortKind.Enum, LibraryElementType > ms_portElementTypes;
 
         private const int ms_minPrimitivesModifier = 2;
 

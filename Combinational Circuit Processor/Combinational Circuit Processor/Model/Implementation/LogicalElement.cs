@@ -19,10 +19,10 @@ namespace LogicalModel.Implementation
         /***************************************************************************/
 
 	    public LogicalElement(
-	        	int _id
-	        ,	ILibraryElementType _elementType
+	            int _id
+	        ,   ILibraryElementType _elementType
 			,	int _modifier
-            )
+        )
         {
             	m_elementType = _elementType;
 				m_modifier = _modifier;

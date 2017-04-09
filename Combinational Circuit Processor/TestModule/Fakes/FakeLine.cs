@@ -100,6 +100,13 @@ namespace TestModule.Fakes
         }
 
         /***************************************************************************/
+
+        public bool hasConnection( ILogicalElement _element )
+        {
+            throw new NotImplementedException();
+        }
+
+        /***************************************************************************/
     }
 }
 

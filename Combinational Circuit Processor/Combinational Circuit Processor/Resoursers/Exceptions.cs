@@ -21,6 +21,7 @@ namespace Resoursers.Exceptions
         public const string nonPrimitiveElement            = "Element {0} is not primitive. Use proper method for creating it";
         public const string primitiveElement               = "Element {0} is primitive. Use method createLogicalPrimitive to create it";
         public const string wrongInputsCount               = "Cannot create {0} element with {1} inputs. At least {2} are required";
+        public const string unknownEntity                  = "{0} with id \"{1}\" doesn't exist in \"{2}\" circuit";
 
         /***************************************************************************/
     }

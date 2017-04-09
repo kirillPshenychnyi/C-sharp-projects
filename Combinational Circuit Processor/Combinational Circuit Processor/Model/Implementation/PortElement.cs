@@ -44,9 +44,10 @@ namespace LogicalModel.Implementation
             set
             {
               	m_port.LogicValue = value;
-              	if ( m_kind == API.PortKind.Enum.Input )
-              		evaluate();
-
+                if ( m_kind == API.PortKind.Enum.Input )
+                    evaluate();
+                else
+                    m_port.LogicValue = Inputs[ 0 ].Value;
             }
         }
  

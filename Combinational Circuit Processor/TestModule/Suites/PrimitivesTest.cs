@@ -1,8 +1,12 @@
 ﻿
 /***************************************************************************/
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+/***************************************************************************/
+
+using PortList = System.Collections.Generic.List< LogicalModel.Implementation.PortElement >;
 
 /***************************************************************************/
 
@@ -25,7 +29,7 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
             factory.reset();
-
+            
             PortElement a = factory.createPortElement( PortKind.Enum.Input );
             PortElement b = factory.createPortElement( PortKind.Enum.Input );
 
@@ -33,21 +37,27 @@ namespace TestModule.Suites
 
             ILogicalElement and2 = factory.createLogicalElement( LibraryElementKind.Enum.AND, 2 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( and2, new PortList { c } );
+
             and2.makeConnection( a, 0, 0 );
             and2.makeConnection( b, 1, 0 );
 
             c.makeConnection( and2, 0, 0 );
 
             a.Value = LogicValue.Enum.Low;
+            evaluator.evaluate();
             Assert.AreEqual( c.Value, LogicValue.Enum.Unknown );
 
             b.Value = LogicValue.Enum.High;
+            evaluator.evaluate();
             Assert.AreEqual( c.Value, LogicValue.Enum.Low );
 
             a.Value = LogicValue.Enum.High;
+            evaluator.evaluate();
             Assert.AreEqual( c.Value, LogicValue.Enum.High );
 
             a.Value = LogicValue.Enum.Unknown;
+            evaluator.evaluate();
             Assert.AreEqual( c.Value, LogicValue.Enum.Unknown );
         }
 
@@ -66,6 +76,8 @@ namespace TestModule.Suites
 
             ILogicalElement and3 = factory.createLogicalElement( LibraryElementKind.Enum.AND, 3 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( and3, new PortList { d } );
+
             and3.makeConnection( a, 0, 0 );
             and3.makeConnection( b, 1, 0 );
             and3.makeConnection( c, 2, 0 );
@@ -75,38 +87,44 @@ namespace TestModule.Suites
 		    a.Value = LogicValue.Enum.Unknown;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.Low;
-		    // U00
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // U00
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.Unknown;
 		    c.Value = LogicValue.Enum.High;
-		    // 0U1
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // 0U1
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.Unknown;
-		    // X1U
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // X1U
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.High;
-		    // X00
-		    Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X00
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // X0X
-		    Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X0X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.DontCare;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // 0XX
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 0XX
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.Low;
@@ -117,32 +135,37 @@ namespace TestModule.Suites
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.DontCare;
 		    c.Value = LogicValue.Enum.Low;
-		    // XX0
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // XX0
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.High;
-		    // 111
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 111
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.High;
-		    // 001
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 001
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.Low;
-		    // 110
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 110
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.High;
-		    // 101
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 101
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
         }
 
 
@@ -161,6 +184,8 @@ namespace TestModule.Suites
 
             ILogicalElement or3 = factory.createLogicalElement( LibraryElementKind.Enum.OR, 3 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( or3, new PortList { d } );
+
             or3.makeConnection( a, 0, 0 );
             or3.makeConnection( b, 1, 0 );
             or3.makeConnection( c, 2, 0 );
@@ -170,74 +195,86 @@ namespace TestModule.Suites
 		    a.Value = LogicValue.Enum.Unknown;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.Low;
-		    // U00
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // U00
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.Unknown;
 		    c.Value = LogicValue.Enum.High;
-		    // 0U1
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // 0U1
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.Unknown;
-		    // X1U
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // X1U
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.Low;
-		    // X00
-		    Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X00
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // X0X
-		    Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X0X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.DontCare;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // 1XX
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 1XX
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // X1X
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // X1X
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.DontCare;
 		    c.Value = LogicValue.Enum.High;
-		    // XX1
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // XX1
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.Low;
-		    // 000
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 000
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.High;
-		    // 001
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 001
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.Low;
-		    // 110
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 110
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.High;
-		    // 101
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 101
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
         }
 
  	/***************************************************************************/
@@ -255,6 +292,8 @@ namespace TestModule.Suites
 
             ILogicalElement nand3 = factory.createLogicalElement( LibraryElementKind.Enum.NAND, 3 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( nand3, new PortList { d } );
+
             nand3.makeConnection( a, 0, 0 );
             nand3.makeConnection( b, 1, 0 );
             nand3.makeConnection( c, 2, 0 );
@@ -264,74 +303,86 @@ namespace TestModule.Suites
 		    a.Value = LogicValue.Enum.Unknown;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.Low;
-		    // U00
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // U00
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.Unknown;
 		    c.Value = LogicValue.Enum.High;
-		    // 0U1
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // 0U1
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.Unknown;
-		    // X1U
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // X1U
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.High;
-		    // X00
-		    Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X00
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // X0X
-		    Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X0X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.DontCare;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // 0XX
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 0XX
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.DontCare;
-		    // X0X
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // X0X
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.DontCare;
 		    b.Value = LogicValue.Enum.DontCare;
 		    c.Value = LogicValue.Enum.Low;
-		    // XX0
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // XX0
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.High;
-		    // 111
-		    Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 111
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 		    a.Value = LogicValue.Enum.Low;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.High;
-		    // 001
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 001
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.High;
 		    c.Value = LogicValue.Enum.Low;
-		    // 110
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 110
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 		    a.Value = LogicValue.Enum.High;
 		    b.Value = LogicValue.Enum.Low;
 		    c.Value = LogicValue.Enum.High;
-		    // 101
-		    Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 101
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
         }
 
 	    /***************************************************************************/
@@ -349,6 +400,8 @@ namespace TestModule.Suites
 
             ILogicalElement nor3 = factory.createLogicalElement( LibraryElementKind.Enum.NOR, 3 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( nor3, new PortList { d } );
+
             nor3.makeConnection( a, 0, 0 );
             nor3.makeConnection( b, 1, 0 );
             nor3.makeConnection( c, 2, 0 );
@@ -358,74 +411,86 @@ namespace TestModule.Suites
 	        a.Value = LogicValue.Enum.Unknown;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // U00
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // U00
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Unknown;
 	        c.Value = LogicValue.Enum.High;
-	        // 0U1
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // 0U1
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.Unknown;
-	        // X1U
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // X1U
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // X00
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X00
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.DontCare;
-	        // X0X
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X0X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.DontCare;
 	        c.Value = LogicValue.Enum.DontCare;
-	        // 1XX
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 1XX
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.DontCare;
-	        // X1X
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // X1X
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.DontCare;
 	        c.Value = LogicValue.Enum.High;
-	        // XX1
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // XX1
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // 000
-	        Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 000
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.High;
-	        // 001
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 001
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.Low;
-	        // 110
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 110
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.High;
-	        // 101
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 101
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
         }
 
  	    /***************************************************************************/
@@ -440,21 +505,27 @@ namespace TestModule.Suites
 
             ILogicalElement inverter = factory.createLogicalElement( LibraryElementKind.Enum.Inverter, 1 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( inverter, new PortList { b } );
+
             inverter.makeConnection( a, 0, 0 );
 
             b.makeConnection( inverter, 0, 0 );
 
             a.Value = LogicValue.Enum.High;
+            evaluator.evaluate();
             Assert.AreEqual( b.Value, LogicValue.Enum.Low );
 
             a.Value = LogicValue.Enum.Low;
+            evaluator.evaluate();
             Assert.AreEqual( b.Value, LogicValue.Enum.High );
 
             a.Value = LogicValue.Enum.Unknown;
+            evaluator.evaluate();
             Assert.AreEqual( b.Value, LogicValue.Enum.Unknown );
 
 		    a.Value = LogicValue.Enum.DontCare;
-        	Assert.AreEqual( b.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            Assert.AreEqual( b.Value, LogicValue.Enum.DontCare );
         }
 
 	    /***************************************************************************/
@@ -472,6 +543,8 @@ namespace TestModule.Suites
 
             ILogicalElement xor3 = factory.createLogicalElement( LibraryElementKind.Enum.XOR, 3 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( xor3, new PortList { d } ); 
+
             xor3.makeConnection( a, 0, 0 );
             xor3.makeConnection( b, 1, 0 );
             xor3.makeConnection( c, 2, 0 );
@@ -481,68 +554,79 @@ namespace TestModule.Suites
 	        a.Value = LogicValue.Enum.Unknown;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // U00
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // U00
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Unknown;
 	        c.Value = LogicValue.Enum.High;
-	        // 0U1
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // 0U1
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.Unknown;
-	        // X1U
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // X1U
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // X00
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X00
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.DontCare;
-	        // X0X
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X0X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.DontCare;
 	        c.Value = LogicValue.Enum.DontCare;
-	        // 11X
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // 11X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // 000
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 000
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.High;
-	        // 001
-	        Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 001
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.High;
-	        // 011
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 011
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.High;
-	        // 111
-	        Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 111
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.Low;
-	        // 110
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 110
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
         }
 
 
@@ -561,6 +645,8 @@ namespace TestModule.Suites
 
             ILogicalElement nxor3 = factory.createLogicalElement( LibraryElementKind.Enum.NXOR, 3 );
 
+            Utils.Evaluator evaluator = new Utils.Evaluator( nxor3, new PortList { d } );
+
             nxor3.makeConnection( a, 0, 0 );
             nxor3.makeConnection( b, 1, 0 );
             nxor3.makeConnection( c, 2, 0 );
@@ -570,68 +656,79 @@ namespace TestModule.Suites
 	        a.Value = LogicValue.Enum.Unknown;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // U00
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // U00
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Unknown;
 	        c.Value = LogicValue.Enum.High;
-	        // 0U1
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // 0U1
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.Unknown;
-	        // X1U
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
+            evaluator.evaluate();
+            // X1U
+            Assert.AreEqual( d.Value, LogicValue.Enum.Unknown );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // X00
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X00
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.DontCare;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.DontCare;
-	        // X0X
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // X0X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.DontCare;
 	        c.Value = LogicValue.Enum.DontCare;
-	        // 11X
-	        Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
+            evaluator.evaluate();
+            // 11X
+            Assert.AreEqual( d.Value, LogicValue.Enum.DontCare );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.Low;
-	        // 000
-	        Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 000
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.Low;
 	        c.Value = LogicValue.Enum.High;
-	        // 001
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 001
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.Low;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.High;
-	        // 011
-	        Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 011
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.High;
-	        // 111
-	        Assert.AreEqual( d.Value, LogicValue.Enum.Low );
+            evaluator.evaluate();
+            // 111
+            Assert.AreEqual( d.Value, LogicValue.Enum.Low );
 
 	        a.Value = LogicValue.Enum.High;
 	        b.Value = LogicValue.Enum.High;
 	        c.Value = LogicValue.Enum.Low;
-	        // 110
-	        Assert.AreEqual( d.Value, LogicValue.Enum.High );
+            evaluator.evaluate();
+            // 110
+            Assert.AreEqual( d.Value, LogicValue.Enum.High );
         }
 
         /***************************************************************************/

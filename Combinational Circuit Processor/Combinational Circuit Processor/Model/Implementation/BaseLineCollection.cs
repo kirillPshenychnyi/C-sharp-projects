@@ -10,7 +10,7 @@ namespace LogicalModel.Implementation
     /***************************************************************************/
 
     using API;
-
+    
     /***************************************************************************/
 
     public abstract class BaseLineCollection : ILineCollection
@@ -61,7 +61,7 @@ namespace LogicalModel.Implementation
         {
             for ( int i = 0; i < Size; ++i )
             {
-              this[ i ].Value = _value;
+                this[ i ].Value = _value;
             }
         }
 

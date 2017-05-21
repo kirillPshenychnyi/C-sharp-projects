@@ -30,11 +30,11 @@ namespace TestModule.Suites
 
         	ILogicalElement mux = factory.createLogicalElement( LibraryElementKind.Enum.MUX, 1 );
 
-            PortElement a_port = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b_port = factory.createPortElement( PortKind.Enum.Input );  
-            PortElement address = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a_port = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b_port = factory.createPortElement( PortDirection.Input, "b" );  
+            PortElement address = factory.createPortElement( PortDirection.Input, "adr" );
 
-            PortElement c_port = factory.createPortElement( PortKind.Enum.Output );
+            PortElement c_port = factory.createPortElement( PortDirection.Output, "c" );
 
             Utils.Evaluator evaluator = new Utils.Evaluator( mux, new PortList { c_port } );
 
@@ -77,15 +77,15 @@ namespace TestModule.Suites
 
             ILogicalElement mux = factory.createLogicalElement( LibraryElementKind.Enum.MUX, 2 );
 
-            PortElement a_port = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b_port = factory.createPortElement( PortKind.Enum.Input );
-            PortElement c_port = factory.createPortElement( PortKind.Enum.Input );
-            PortElement d_port = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a_port = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b_port = factory.createPortElement( PortDirection.Input, "b" );
+            PortElement c_port = factory.createPortElement( PortDirection.Input, "c" );
+            PortElement d_port = factory.createPortElement( PortDirection.Input, "d" );
 
-            PortElement addressLow  = factory.createPortElement( PortKind.Enum.Input );
-            PortElement addressHigh = factory.createPortElement( PortKind.Enum.Input );
+            PortElement addressLow  = factory.createPortElement( PortDirection.Input, "adr_l" );
+            PortElement addressHigh = factory.createPortElement( PortDirection.Input, "adr_h" );
 
-            PortElement e_port = factory.createPortElement( PortKind.Enum.Output );
+            PortElement e_port = factory.createPortElement( PortDirection.Output, "e" );
 
             Utils.Evaluator evaluator = new Utils.Evaluator( mux, new PortList { e_port } );
 

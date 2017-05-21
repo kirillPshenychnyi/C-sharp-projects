@@ -30,10 +30,10 @@ namespace TestModule.Suites
             ElementsFactory factory = ElementsFactory.getInstance();
             factory.reset();
             
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Input, "b" );
 
-            PortElement c = factory.createPortElement( PortKind.Enum.Output );
+            PortElement c = factory.createPortElement( PortDirection.Output, "c" );
 
             ILogicalElement and2 = factory.createLogicalElement( LibraryElementKind.Enum.AND, 2 );
 
@@ -68,11 +68,11 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
 
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Input );
-            PortElement c = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Input, "b" );
+            PortElement c = factory.createPortElement( PortDirection.Input, "c" );
 
-            PortElement d = factory.createPortElement( PortKind.Enum.Output );
+            PortElement d = factory.createPortElement( PortDirection.Output, "d" );
 
             ILogicalElement and3 = factory.createLogicalElement( LibraryElementKind.Enum.AND, 3 );
 
@@ -176,11 +176,11 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
 
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Input );
-            PortElement c = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Input, "b" );
+            PortElement c = factory.createPortElement( PortDirection.Input, "c" );
 
-            PortElement d = factory.createPortElement( PortKind.Enum.Output );
+            PortElement d = factory.createPortElement( PortDirection.Output, "d" );
 
             ILogicalElement or3 = factory.createLogicalElement( LibraryElementKind.Enum.OR, 3 );
 
@@ -284,11 +284,11 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
 
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Input );
-            PortElement c = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Input, "b" );
+            PortElement c = factory.createPortElement( PortDirection.Input, "c" );
 
-            PortElement d = factory.createPortElement( PortKind.Enum.Output );
+            PortElement d = factory.createPortElement( PortDirection.Output, "d" );
 
             ILogicalElement nand3 = factory.createLogicalElement( LibraryElementKind.Enum.NAND, 3 );
 
@@ -392,11 +392,11 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
 
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Input );
-            PortElement c = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Input, "b" );
+            PortElement c = factory.createPortElement( PortDirection.Input, "c" );
 
-            PortElement d = factory.createPortElement( PortKind.Enum.Output );
+            PortElement d = factory.createPortElement( PortDirection.Output, "d" );
 
             ILogicalElement nor3 = factory.createLogicalElement( LibraryElementKind.Enum.NOR, 3 );
 
@@ -500,8 +500,8 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
 
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Output );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Output, "b" );
 
             ILogicalElement inverter = factory.createLogicalElement( LibraryElementKind.Enum.Inverter, 1 );
 
@@ -535,11 +535,11 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
 
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Input );
-            PortElement c = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Input, "b" );
+            PortElement c = factory.createPortElement( PortDirection.Input, "c" );
 
-            PortElement d = factory.createPortElement( PortKind.Enum.Output );
+            PortElement d = factory.createPortElement( PortDirection.Output, "d" );
 
             ILogicalElement xor3 = factory.createLogicalElement( LibraryElementKind.Enum.XOR, 3 );
 
@@ -637,11 +637,11 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
 
-            PortElement a = factory.createPortElement( PortKind.Enum.Input );
-            PortElement b = factory.createPortElement( PortKind.Enum.Input );
-            PortElement c = factory.createPortElement( PortKind.Enum.Input );
+            PortElement a = factory.createPortElement( PortDirection.Input, "a" );
+            PortElement b = factory.createPortElement( PortDirection.Input, "b" );
+            PortElement c = factory.createPortElement( PortDirection.Input, "c" );
 
-            PortElement d = factory.createPortElement( PortKind.Enum.Output );
+            PortElement d = factory.createPortElement( PortDirection.Output, "d" );
 
             ILogicalElement nxor3 = factory.createLogicalElement( LibraryElementKind.Enum.NXOR, 3 );
 

@@ -248,11 +248,11 @@ namespace LogicalModel.Implementation
 
             switch ( portElement.PortKind )
             {
-                case PortKind.Enum.Input:
+                case PortDirection.Input:
 					// do not set values to input ports during internal simulation
               		portElement.Outputs[ 0 ].Value = portElement.Value;
                     break;
-                case PortKind.Enum.Output:
+                case PortDirection.Output:
               		portElement.Value = portElement.Inputs[ 0 ].Value;
                     break;       
             }

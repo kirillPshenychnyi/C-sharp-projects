@@ -14,25 +14,35 @@ namespace LogicalModel.Implementation
         /***************************************************************************/
 
         public PortElement(
-                PortKind.Enum _portKind
+                PortDirection _portKind
+              , string _name
               , int _id
 			  , ILibraryElementType _type
         )
             : base( _id, _type, 0 )
         {
-            m_port = new Port();
-            m_kind = _portKind;
+            m_port = new Port( _name );
+            PortKind = _portKind;
         }
 
         /***************************************************************************/
 
-        public PortKind.Enum PortKind
+        public PortDirection PortKind
+        {
+            get;
+        }
+
+        /***************************************************************************/
+
+        public string Name
         {
             get
             {
-                return m_kind;
+                return m_port.Name;
             }
         }
+
+        /***************************************************************************/
 
         public LogicValue.Enum Value
         {
@@ -44,7 +54,7 @@ namespace LogicalModel.Implementation
             set
             {
               	m_port.LogicValue = value;
-                if ( m_kind == API.PortKind.Enum.Input )
+                if ( PortKind == PortDirection.Input )
                     evaluate();
                 else
                     m_port.LogicValue = Inputs[ 0 ].Value;
@@ -54,8 +64,6 @@ namespace LogicalModel.Implementation
         /***************************************************************************/
 
         private readonly IPort m_port;
-
-        private readonly PortKind.Enum m_kind;
 
         /***************************************************************************/
     }

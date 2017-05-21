@@ -13,29 +13,23 @@ namespace LogicalModel.Implementation
     {
         /***************************************************************************/
 
-        public Port()
+        public Port( string _name )
         {
-            m_logicValue = API.LogicValue.Enum.Unknown;
+            Name = _name;
+            LogicValue = API.LogicValue.Enum.Unknown;
         }
+
+        /***************************************************************************/
+
+        public string Name { get; set; }
 
         /***************************************************************************/
 
         public LogicValue.Enum LogicValue
         {
-            get
-            {
-                return m_logicValue;
-            }
-         
-            set
-            {
-                m_logicValue = value;
-            }
+            get;
+            set; 
         }
-
-        /***************************************************************************/
-
-        private LogicValue.Enum m_logicValue;
 
         /***************************************************************************/
     }

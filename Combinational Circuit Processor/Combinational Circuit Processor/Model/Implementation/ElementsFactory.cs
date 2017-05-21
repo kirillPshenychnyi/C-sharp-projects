@@ -47,11 +47,20 @@ namespace LogicalModel.Implementation
 
         /***************************************************************************/
 
-        public PortElement createPortElement( PortKind.Enum _kind )
+        public PortElement createPortElement( PortDirection _kind, string _name )
         {
+
+            if ( _name.Length == 0 )
+            {
+                throw new ArgumentException(
+                   Resoursers.Exceptions.Messages.emptyPortName
+                );
+            }
+
            return
                 new PortElement(
                        _kind
+                    ,   _name
                     ,   ms_currentID++
 					,   ms_portElementTypes[ _kind ]
                 );
@@ -76,7 +85,7 @@ namespace LogicalModel.Implementation
         private void initialize()
         {
             ms_elementTypes = new System.Collections.Generic.Dictionary< LibraryElementKind.Enum, LibraryElementType >();
-		    ms_portElementTypes = new System.Collections.Generic.Dictionary< PortKind.Enum, LibraryElementType >();
+		    ms_portElementTypes = new System.Collections.Generic.Dictionary< LogicalModel.API.PortDirection, LibraryElementType >();
 
             /*think about lazy initialization*/
 		    createPrimitiveElementType(
@@ -147,14 +156,14 @@ namespace LogicalModel.Implementation
 		    );
 
 		    createPortElementType(
-				    PortKind.Enum.Input
+				    PortDirection.Input
 			    ,	LogicalFunctionsLibrary.portElement
 			    ,	LogicalFunctionsLibrary.return0Calculator
 			    ,	LogicalFunctionsLibrary.primitivesOutputsCalculator
 		    );
 
 		    createPortElementType(
-				    PortKind.Enum.Output
+				    PortDirection.Output
 			    ,	LogicalFunctionsLibrary.portElement
 			    ,	LogicalFunctionsLibrary.primitivesOutputsCalculator
 			    ,	LogicalFunctionsLibrary.return0Calculator
@@ -210,7 +219,7 @@ namespace LogicalModel.Implementation
 	/***************************************************************************/
 
 	private void createPortElementType(
-			PortKind.Enum _kind 
+			LogicalModel.API.PortDirection _kind 
 		,	EvalFunction _evalFunction
 		,	CalculateLinesFunction _inputsLinesCalculator
 		,	CalculateLinesFunction _outputsLinesCalculator
@@ -234,7 +243,7 @@ namespace LogicalModel.Implementation
 
         private System.Collections.Generic.Dictionary< LibraryElementKind.Enum, LibraryElementType > ms_elementTypes;
 
-        private System.Collections.Generic.Dictionary< PortKind.Enum, LibraryElementType > ms_portElementTypes;
+        private System.Collections.Generic.Dictionary< LogicalModel.API.PortDirection, LibraryElementType > ms_portElementTypes;
 
         private const int ms_minPrimitivesModifier = 2;
 

@@ -26,15 +26,15 @@ namespace TestModule.Suites
 
             ILogicalElement dc = factory.createLogicalElement( LibraryElementKind.Enum.DC, 2 );
 
-            PortElement addressLow  = factory.createPortElement( PortKind.Enum.Input );
-            PortElement addressHigh = factory.createPortElement( PortKind.Enum.Input );
+            PortElement addressLow  = factory.createPortElement( PortDirection.Input, "a0" );
+            PortElement addressHigh = factory.createPortElement( PortDirection.Input, "a1" );
 
-		    PortElement enable = factory.createPortElement( PortKind.Enum.Input );
+		    PortElement enable = factory.createPortElement( PortDirection.Input, "en" );
 
-            PortElement b_port = factory.createPortElement( PortKind.Enum.Output );
-            PortElement c_port = factory.createPortElement( PortKind.Enum.Output );
-            PortElement d_port = factory.createPortElement( PortKind.Enum.Output );
-            PortElement e_port = factory.createPortElement( PortKind.Enum.Output );
+            PortElement b_port = factory.createPortElement( PortDirection.Output, "b" );
+            PortElement c_port = factory.createPortElement( PortDirection.Output, "c" );
+            PortElement d_port = factory.createPortElement( PortDirection.Output, "d" );
+            PortElement e_port = factory.createPortElement( PortDirection.Output, "e" );
 
             dc.makeConnection( addressLow, 0, 0 );
 	        dc.makeConnection( addressHigh, 1, 0 );

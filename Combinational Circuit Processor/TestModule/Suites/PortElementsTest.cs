@@ -26,11 +26,12 @@ namespace TestModule.Suites
 
             factory.reset();
 
-            PortElement portElement = factory.createPortElement( PortKind.Enum.Input );
-   
+            PortElement portElement = factory.createPortElement( PortDirection.Input, "port" );
+
+            Assert.AreEqual( portElement.Name, "port" );
             Assert.AreEqual( portElement.ID, 0 );
 
-            Assert.AreEqual( portElement.PortKind, PortKind.Enum.Input );
+            Assert.AreEqual( portElement.PortKind, PortDirection.Input );
 
             portElement.Value = LogicValue.Enum.High;
 
@@ -49,11 +50,12 @@ namespace TestModule.Suites
         {
             ElementsFactory factory = ElementsFactory.getInstance();
              
-            PortElement portElement = factory.createPortElement( PortKind.Enum.Output );
+            PortElement portElement = factory.createPortElement( PortDirection.Output, "out" );
 
+            Assert.AreEqual( portElement.Name, "out" );
             Assert.AreEqual( portElement.ID, 1 );
 
-            Assert.AreEqual( portElement.PortKind, PortKind.Enum.Output );
+            Assert.AreEqual( portElement.PortKind, PortDirection.Output );
 
             Assert.AreEqual( portElement.Value, LogicValue.Enum.Unknown );
 

@@ -31,15 +31,15 @@ namespace TestModule.Suites
 
             ILogicalElement cd = factory.createLogicalElement( LibraryElementKind.Enum.ENC, 2 );
 
-		    PortElement a_port = factory.createPortElement( PortKind.Enum.Input );
-	     	PortElement b_port = factory.createPortElement( PortKind.Enum.Input );
-	  	    PortElement c_port = factory.createPortElement( PortKind.Enum.Input );
-         	PortElement d_port = factory.createPortElement( PortKind.Enum.Input );
+		    PortElement a_port = factory.createPortElement( PortDirection.Input, "a" );
+	     	PortElement b_port = factory.createPortElement( PortDirection.Input, "b" );
+	  	    PortElement c_port = factory.createPortElement( PortDirection.Input, "c" );
+         	PortElement d_port = factory.createPortElement( PortDirection.Input, "d" );
 
-            PortElement enable  = factory.createPortElement( PortKind.Enum.Input );
+            PortElement enable  = factory.createPortElement( PortDirection.Input, "en" );
 
-            PortElement e_port = factory.createPortElement( PortKind.Enum.Output );
-            PortElement f_port = factory.createPortElement( PortKind.Enum.Output );
+            PortElement e_port = factory.createPortElement( PortDirection.Output, "e" );
+            PortElement f_port = factory.createPortElement( PortDirection.Output, "f" );
 
             Utils.Evaluator evaluator = new Utils.Evaluator( cd, new PortList { e_port, f_port } );
 

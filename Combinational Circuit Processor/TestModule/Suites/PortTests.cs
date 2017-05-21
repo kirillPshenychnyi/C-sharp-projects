@@ -22,8 +22,9 @@ namespace TestModule.Suites
         [ TestMethod ]
         public void createPort()
         {
-            IPort port = new Port();
+            IPort port = new Port("dummy");
 
+            Assert.AreEqual( port.Name, "dummy" );
             Assert.AreEqual( port.LogicValue, LogicValue.Enum.Unknown );
         }
 
@@ -32,7 +33,7 @@ namespace TestModule.Suites
         [ TestMethod ]
         public void portSetValue()
         {
-            IPort port = new Port();
+            IPort port = new Port("dummy");
 
             port.LogicValue = LogicValue.Enum.High;
 
